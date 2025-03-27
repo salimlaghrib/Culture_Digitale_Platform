@@ -1,0 +1,27 @@
+.navbar{
+  height: 10dvh;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+}
+.ComSearch{
+  border: gray 1px solid;
+  border-radius: 10px;
+  padding: 5px;
+  background: white;
+  width: 30%;
+}
+.input{
+  border:none;
+  width:90%;
+}
+.input:focus {
+  outline: none;
+  border: none;
+}
+.btnSerach{
+  border: none;
+  background:transparent;
+  width: 10px;
+}
+.navheader ul li a:hover{
+  color: red;
+}
