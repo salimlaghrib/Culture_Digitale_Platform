@@ -2,7 +2,10 @@
   <div class="p-2 col-6 d-flex flex-column align-items-center justify-content-center">
     <h1 style="text-align: center ;color: #336AEA;width: 80%">Bienvenue sur le Site d'Enseignement de la Culture Digitale</h1>
     <p style="text-align: center ;width: 80%" >Explorez les ressources pédagogiques et interagissez avec notre chatbot pour enrichir votre apprentissage.</p>
-    <button class="btn btn-primary">Commencer <i class="bi bi-arrow-right"></i></button>
+    <div class="justify-content-between gap-2">
+      <button class="btn btn-primary ms-2" (click)="gotosequence()">Commencer <i class="bi bi-arrow-right"></i></button>
+      <button class="btn btn-outline-primary ms-2">CultureGPT <i class="bi bi-chat-square-dots"></i></button>
+    </div>
   </div>
   <div class="image p-2">
     <img src="assets/image/homeperson.png" alt="person" class="img-fluid">

@@ -1,0 +1,136 @@
+.ComSearch{
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border-radius: 8px;
+  padding: 5px;
+  background: white;
+  width: 50%;
+}
+.input{
+  border:none;
+  width:90%;
+}
+.input:focus {
+  outline: none;
+  border: none;
+}
+.btnSerach{
+  border: none;
+  background:transparent;
+  width: 10%;
+}
+
+.sequence {
+  display: inline-block;          /* Utilisation de flexbox pour centrer l'image */
+  justify-content: center; /* Centre l'image horizontalement */
+  align-items: start;    /* Centre l'image verticalement */
+  height: 100%;           /* Prend toute la hauteur disponible */
+  background-color: #f8f9fa; /* Couleur de fond optionnelle */
+
+}
+
+.sequence h1, .sequence p{
+  text-align: center;
+}
+.introduction,.section, .lesson{
+  background: white;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
+}
+.img-fluid {
+  max-width: 100%;       /* Assure que l'image ne déborde pas */
+  height: auto;          /* Garde les proportions de l'image */
+}
+.introduction h1{
+  font-size: 40px;
+  font-weight: bold;
+}
+.section h1{
+  font-size: 20px;
+}
+.introduction p{
+  color: rgb(75, 85, 99);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 28px;
+}
+
+.d-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Adaptation des cartes à l'espace disponible */
+}
+.course-card{
+  overflow: hidden;
+  transition: transform 0.2s;
+  border: none;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+
+}
+.course-card:hover {
+  transform: scale(1.01); /* Agrandit la carte au survol */
+}
+.course-card .card-img img{
+  max-width:100% ;
+  height: auto;
+}
+.course-card .card-body{
+  text-align: center;
+  padding: 15px;
+}
+.course-card .card-body span{
+  width: min-content;
+  padding: 5px;
+  left: 0;
+}
+.course-card .card-body h3{
+  font-size: 20px;
+  text-align: center;
+}
+.course-card .card-body p{
+  font-size: 15px;
+  color: #737373;
+}
+.course-card .card-body .btn{
+  width:100%;
+  padding: 10px;
+  color: white;
+  background: #007bff;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+.course-card .card-body .btn:hover{
+  background: #336AEA;
+}
+
+/*pour les card de cours*/
+.lesson-card{
+  overflow: hidden;
+  align-items: center;
+}
+.lesson-card img{
+  height: 100%;
+  width: 25%;
+}
+.lesson .d-flex{
+  display: flex;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+}
+.lesson .container{
+
+  padding: 10px;
+  border: #737373 solid 0.5px;
+}
+.lesson-card{
+  /*border: none;*/
+
+}
+
+
+
+
+
+
+
+

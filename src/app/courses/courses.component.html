@@ -1,0 +1,71 @@
+<section class="m-4 page-cours gap-2 p-4">
+  <!-- Bouton Retour -->
+  <a href="#" class="d-flex align-items-center text-decoration-none mb-3 text-dark">
+    <i class="bi bi-arrow-left me-2"></i> Retour
+  </a>
+  <div class="card">
+    <div class="card-header">
+      <!-- Titre du cours -->
+      <h2 class="mb-3 fw-bold">Histoire des ordinateurs</h2>
+
+      <!-- Description -->
+      <p class="mb-4 lead">Cette vidéo retrace l'évolution des ordinateurs depuis leurs origines jusqu'à l'ère moderne, en passant par les principales innovations technologiques qui ont marqué leur développement.</p>
+    </div>
+    <div class="card-body">
+      <!-- Vidéo YouTube -->
+      <div class="container rounded-3 mb-4 p-0 overflow-hidden">
+        <div class="ratio ratio-21x9">
+          <iframe
+            src="https://www.youtube.com/embed/WCprnWOi8Q8"
+            title="Histoire des ordinateurs"
+            allowfullscreen
+            class="border-0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin">
+          </iframe>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+
+
+  <!-- Cartes annexes -->
+  <div class="row g-3">
+    <!-- Carte PDF -->
+    <div class="col-md-6">
+      <div class="card h-100 shadow-sm">
+        <div class="card-header bg-light d-flex align-items-center">
+          <i class="bi bi-file-earmark-pdf fs-5 me-2 text-danger"></i>
+          <span class="fw-medium">Article PDF</span>
+        </div>
+        <div class="card-body">
+          <p class="card-text">Téléchargez le support de cours complet au format PDF.</p>
+          <button href="#" class="btn btn-outline-danger btn-sm" (click)="gotoreadPdf()"> <i class="bi bi-file-earmark-text"></i> Lire</button>
+          <a href="#" class="btn btn-outline-success btn-sm ms-1"><i class="bi bi-download"></i> Télécharger</a>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Carte Questionnaire -->
+    <div class="col-md-6">
+      <div class="card h-100 shadow-sm">
+        <div class="card-header bg-light d-flex align-items-center">
+          <i class="bi bi-question-circle fs-5 me-2 text-primary"></i>
+          <span class="fw-medium">Questionnaire</span>
+        </div>
+        <div class="card-body">
+          <p class="card-text">Testez vos connaissances avec ce questionnaire.</p>
+          <a href="#" class="btn btn-outline-primary btn-sm"> Commencer</a>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex flex-row justify-content-between">
+      <button class="btn btn-primary"> <i class="bi bi-arrow-left"></i> Precedent</button>
+      <button class="btn btn-primary">Suivant <i class="bi bi-arrow-right"></i></button>
+    </div>
+  </div>
+</section>

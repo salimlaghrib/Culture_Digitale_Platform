@@ -6,7 +6,11 @@ import { Component } from '@angular/core';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
-
+  navLinks = [
+    { path: '/', label: 'Accueil' },
+    { path: '/resources', label: 'Resources' },
+    { path: '/about', label: 'À Propos' }
+  ];
   onSearch() {
 
   }

@@ -1,27 +1,20 @@
-.navbar{
+.navheader{
   height: 10dvh;
-  box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+  background: #F3F4F6;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
-.ComSearch{
-  border: gray 1px solid;
-  border-radius: 10px;
-  padding: 5px;
-  background: white;
-  width: 30%;
-}
-.input{
-  border:none;
-  width:90%;
-}
-.input:focus {
-  outline: none;
+
+
+
+.btnLogin{
+  border-radius: 8px;
+  background: #336AEA;
   border: none;
+  color: white;
+  padding: 8px;
 }
-.btnSerach{
-  border: none;
-  background:transparent;
-  width: 10px;
-}
-.navheader ul li a:hover{
-  color: red;
-}
+
+
