@@ -1,0 +1,175 @@
+/* Main container styles */
+.login-container {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Background image styles */
+.login-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/assets/image/bglogin.jpg');
+  background-size: cover;
+  background-position: center;
+  z-index: -1;
+  filter: brightness(0.7); /* Darken background slightly */
+}
+
+/* Content container */
+.login-content {
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 2rem;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 450px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Logo styles */
+.logo-img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 1.5rem;
+}
+
+/* Form styles */
+.form-control {
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+
+}
+.form-group {
+  position: relative;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px 35px 10px 40px; /* Espace pour l'icône à droite */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.form-label {
+  position: absolute;
+  left: 25px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #777;
+  background: white;
+  padding: 0 5px;
+  transition: all 0.3s;
+  pointer-events: none; /* Permet de cliquer à travers le label */
+}
+
+/* Déplace le label vers le haut lors du focus/remplissage */
+.form-control:focus + .form-label,
+.form-control:not(:placeholder-shown) + .form-label {
+  transform: translateY(-30px) translateX(-10px); /* Monte + léger décalage */
+  font-size: 14px;
+  color: #007bff;
+  border-radius:4px ;
+}
+
+/* Style de l'icône */
+.icon {
+  position: absolute;
+  left: 10px; /* Position à droite du champ */
+  color: #777;
+}
+.icon2 {
+  position: absolute;
+  right: 10px; /* Position à droite du champ */
+  color: #777;
+}
+
+
+.form-control:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 0.10rem rgba(13, 110, 253, 0.25);
+}
+
+.btnlogin {
+  color: white;
+  background: #336AEA;
+  border: none;
+  border-radius:8px;
+  padding: 12px;
+  font-weight: 500;
+}
+.mediaButton{
+  padding: 10px;
+  width: 100%;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  border: none;
+  height: 100%;
+}
+
+/* Divider styles */
+.divider {
+  color: #6c757d;
+  font-size: 0.875rem;
+}
+
+.line {
+  height: 1px;
+  background-color: #dee2e6;
+}
+
+/* Social button styles */
+.media-button {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid #dee2e6;
+  transition: all 0.3s ease;
+}
+
+.media-button:hover {
+  background-color: #f8f9fa;
+  transform: translateY(-2px);
+}
+
+.media-button i {
+  font-size: 1.2rem;
+}
+
+/* Specific social button colors */
+.btn-outline-primary {
+  color: #0d6efd;
+  border-color: #0d6efd;
+}
+
+.bi-google {
+  color: #DB4437;
+}
+
+.bi-facebook {
+  color: #4267B2;
+}
+
+.bi-twitter-x {
+  color: #000;
+}

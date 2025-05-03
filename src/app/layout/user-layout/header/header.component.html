@@ -52,32 +52,31 @@
     <button class="btn btn-outline-primary d-block d-sm-none"><i class="bi bi-menu"></i></button>
   </div>
   <div class="">
-<!--    <button class="btn btn-outline-primary ms-2">Se connecter</button>-->
-<!--    <button class="btn btn-primary ms-2">s'inscrire</button>-->
-    <div class="dropdown">
-      <button class="btn btn-light bg-transparent dropdown-toggle d-flex align-items-center gap-2 p-2"
-              id="profileDropdown"
-              type="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false">
-        <img src="favicon.ico" class="rounded-circle border" width="30" height="30" alt="Photo de profil">
-        <h6 class="mb-0 text-dark">Salim Laghrib</h6>
-      </button>
+    <button (click)=" goToLogin()" class="btn btn-outline-primary ms-2">Se connecter</button>
+    <button (click)="goTosignin()" class="btn btn-primary ms-2">s'inscrire</button>
+<!--    <div class="dropdown">-->
+<!--      <button class="btn btn-light bg-transparent dropdown-toggle d-flex align-items-center gap-2 p-2"-->
+<!--              id="profileDropdown"-->
+<!--              type="button"-->
+<!--              data-bs-toggle="dropdown"-->
+<!--              aria-expanded="false">-->
+<!--        <img src="favicon.ico" class="rounded-circle border" width="30" height="30" alt="Photo de profil">-->
+<!--        <h6 class="mb-0 text-dark">Salim Laghrib</h6>-->
+<!--      </button>-->
 
-      <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="profileDropdown">
-        <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Profil</a></li>
-        <li><a class="dropdown-item" href="#"><i class="bi bi-award me-2"></i>Badges</a></li>
-        <li><a class="dropdown-item" href="#"><i class="bi bi-bookmark me-2"></i>Favoris</a></li>
-        <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Paramètres</a></li>
+<!--      <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="profileDropdown">-->
+<!--        <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Profil</a></li>-->
 
-        <li><hr class="dropdown-divider"></li>
-        <li>
-          <a class="dropdown-item text-danger" href="#">
-            <i class="bi bi-box-arrow-right me-2"></i>Déconnexion
-          </a>
-        </li>
-      </ul>
-    </div>
+<!--        <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Paramètres</a></li>-->
+
+<!--        <li><hr class="dropdown-divider"></li>-->
+<!--        <li>-->
+<!--          <a class="dropdown-item text-danger" href="#">-->
+<!--            <i class="bi bi-box-arrow-right me-2"></i>Déconnexion-->
+<!--          </a>-->
+<!--        </li>-->
+<!--      </ul>-->
+<!--    </div>-->
 
   </div>
 </nav>

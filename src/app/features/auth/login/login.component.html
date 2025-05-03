@@ -1,0 +1,90 @@
+<div class="login-container">
+  <!-- Background image container -->
+  <div class="login-background"></div>
+
+  <!-- Content container -->
+  <div class="login-content">
+    <!-- Logo section -->
+    <div class="logo-box mb-3">
+      <img
+        src="assets/image/digitalAcademy.png"
+        alt="Digital Academy - Apprendre la culture digitale"
+        class="logo-img"
+        width="276"
+      >
+    </div>
+
+    <!-- Titre et sous-titre -->
+    <div class="header-content d-flex flex-column justify-content-center align-items-center text-center">
+      <h1 class="fs-4 fw-bold mb-2">Connectez-vous</h1>
+      <p class="text-muted fs-6">
+        Développez vos compétences numériques dès aujourd'hui !
+      </p>
+    </div>
+
+    <!-- Login form -->
+    <div class="login-form">
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="form-group mb-3">
+          <div class="input-wrapper">
+            <input type="email" id="email" class="form-control" placeholder=" " formControlName="email">
+            <label for="email" class="form-label">Email</label>
+            <i class="bi bi-envelope icon"></i>
+          </div>
+          <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="text-danger small">
+            Email invalide
+          </div>
+        </div>
+
+        <div class="form-group mb-3">
+          <div class="input-wrapper">
+            <input [type]="passwordFieldType" id="password" class="form-control" placeholder=" " formControlName="password">
+            <label for="password" class="form-label">Password</label>
+            <i class="bi bi-lock icon"></i>
+            <i class="icon2" (click)="eyebutton()"
+               [ngClass]="{'bi-eye': open, 'bi-eye-slash': !open}">
+            </i>
+          </div>
+          <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="text-danger small">
+            Mot de passe requis (max 12 caractères)
+          </div>
+        </div>
+
+        <div style="text-align: end">
+          <p class="fw-bold text-black-50">Mot de passe oublié?</p>
+        </div>
+
+        <div *ngIf="errorMessage" class="alert alert-danger text-center small py-2 mb-3">
+          {{ errorMessage }}
+        </div>
+
+        <div class="d-flex justify-content-center">
+          <button class="btnlogin" type="submit" [disabled]="loginForm.invalid || isLoading">
+            <span *ngIf="!isLoading">Se connecter</span>
+            <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          </button>
+        </div>
+
+        <!-- OR Divider -->
+        <div class="divider d-flex align-items-center mb-3">
+          <div class="line flex-grow-1"></div>
+          <span class="px-3">OR</span>
+          <div class="line flex-grow-1"></div>
+        </div>
+
+        <!-- Social buttons -->
+        <div class="d-flex justify-content-center gap-3">
+          <button type="button" class="media-button btn btn-outline-primary rounded-circle">
+            <i class="bi bi-google"></i>
+          </button>
+          <button type="button" class="media-button btn btn-outline-primary rounded-circle">
+            <i class="bi bi-facebook"></i>
+          </button>
+          <button type="button" class="media-button btn btn-outline-primary rounded-circle">
+            <i class="bi bi-twitter-x"></i>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

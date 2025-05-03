@@ -1,0 +1,20 @@
+<div class="modal-header">
+  <h5 class="modal-title align-content-center" >Les règles du questionnaire</h5>
+  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+  <div class="info-list">
+    <div class="info"><span>1</span> - Vous avez le droit de choisir une seule réponse</div>
+    <div class="info"><span>2</span> - Le questionnaire a un temps limité</div>
+    <div class="info"><span>3</span> - Vous ne pouvez pas revenir en arrière</div>
+    <div class="info"><span>4</span> - Les réponses sont définitives</div>
+  </div>
+</div>
+<div class="modal-footer justify-content-between">
+  <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+    <i class="bi bi-x-circle"></i> Quitter
+  </button>
+  <button type="button" class="btn btn-primary" (click)="onStart()">
+    Continuer <i class="bi bi-arrow-right"></i>
+  </button>
+</div>

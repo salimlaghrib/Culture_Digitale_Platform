@@ -1,0 +1,112 @@
+<div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+  <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-6">
+    {{ isEditMode ? 'Modifier' : 'Ajouter' }} un cours
+  </h2>
+
+  <form (ngSubmit)="onSubmit()" #courseForm="ngForm">
+    <div class="grid grid-cols-1 gap-6 mb-6">
+      <!-- Title field -->
+      <div>
+        <label for="title" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Titre</label>
+        <input type="text" id="title" name="title" [(ngModel)]="course.title" required
+               class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+      </div>
+
+      <!-- Description field -->
+      <div>
+        <label for="description" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
+        <textarea id="description" name="description" [(ngModel)]="course.description" required rows="3"
+                  class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"></textarea>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Category field -->
+        <div>
+          <label for="category" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Catégorie</label>
+          <select id="category" name="category" [(ngModel)]="course.category" required
+                  class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+            <option value="development">Développement</option>
+            <option value="design">Design</option>
+            <option value="marketing">Marketing</option>
+            <option value="business">Business</option>
+          </select>
+        </div>
+
+        <!-- Instructor field -->
+        <div>
+          <label for="instructor" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Formateur</label>
+          <input type="text" id="instructor" name="instructor" [(ngModel)]="course.instructor" required
+                 class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+        </div>
+
+        <!-- Duration field -->
+        <div>
+          <label for="duration" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Durée</label>
+          <input type="text" id="duration" name="duration" [(ngModel)]="course.duration" required
+                 class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+        </div>
+
+        <!-- Level field -->
+        <div>
+          <label for="level" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Niveau</label>
+          <select id="level" name="level" [(ngModel)]="course.level" required
+                  class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+            <option value="débutant">Débutant</option>
+            <option value="intermédiaire">Intermédiaire</option>
+            <option value="avancé">Avancé</option>
+          </select>
+        </div>
+
+        <!-- Rating field -->
+        <div>
+          <label for="rating" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Évaluation</label>
+          <input type="number" id="rating" name="rating" [(ngModel)]="course.rating" required min="0" max="5" step="0.1"
+                 class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+        </div>
+
+        <!-- Enrolled Students field -->
+        <div>
+          <label for="enrolledStudents" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Étudiants inscrits</label>
+          <input type="number" id="enrolledStudents" name="enrolledStudents" [(ngModel)]="course.enrolledStudents" required min="0"
+                 class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+        </div>
+      </div>
+
+      <!-- PDF Upload field -->
+      <div>
+        <label for="pdfFile" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Document PDF</label>
+        <div class="flex items-center">
+          <label class="flex-grow cursor-pointer bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-600">
+            <div class="flex items-center justify-between">
+              <span class="text-gray-500 dark:text-gray-300 truncate">
+                {{ course.pdfFileName || 'Choisir un fichier PDF...' }}
+              </span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+              </svg>
+            </div>
+            <input type="file" id="pdfFile" name="pdfFile" accept="application/pdf" (change)="onFileSelected($event)" class="hidden">
+          </label>
+          <button *ngIf="course.pdfFileName" type="button" (click)="course.pdfFileName = ''; course.pdfFile = null; selectedFile = null"
+                  class="ml-2 p-2 text-red-500 hover:bg-red-100 rounded-full">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Formats acceptés: PDF uniquement</p>
+      </div>
+    </div>
+
+    <div class="flex justify-end space-x-3">
+      <button type="button" (click)="onCancel()"
+              class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+        Annuler
+      </button>
+      <button type="submit" [disabled]="!courseForm.form.valid"
+              class="px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed">
+        {{ isEditMode ? 'Mettre à jour' : 'Créer' }}
+      </button>
+    </div>
+  </form>
+</div>

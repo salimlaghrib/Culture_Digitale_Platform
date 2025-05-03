@@ -1,10 +1,15 @@
 import { Component } from '@angular/core';
+import { AuthService } from './core/services/auth.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'AppDigitalCulture';
+  constructor(private authService: AuthService) {}
+
+  get isAuthenticated(): boolean {
+    return this.authService.isAuthenticated();
+  }
 }

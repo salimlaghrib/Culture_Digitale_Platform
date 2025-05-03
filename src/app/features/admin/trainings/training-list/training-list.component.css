@@ -1,0 +1,105 @@
+/* Training List Component Styles */
+
+/* Card hover effect */
+.training-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.training-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Custom animation for loading spinner */
+@keyframes pulse-border {
+  0% {
+    border-color: rgba(79, 70, 229, 0.5);
+  }
+  50% {
+    border-color: rgba(79, 70, 229, 1);
+  }
+  100% {
+    border-color: rgba(79, 70, 229, 0.5);
+  }
+}
+
+.loading-spinner {
+  animation: pulse-border 1.5s infinite;
+}
+
+/* Rating badge styles */
+.rating-badge {
+  background: linear-gradient(to right, #fde68a, #fcd34d);
+  transition: transform 0.2s ease;
+}
+
+.rating-badge:hover {
+  transform: scale(1.1);
+}
+
+/* Price tag styles */
+.price-tag {
+  position: relative;
+  overflow: hidden;
+}
+
+.price-tag::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -20px;
+  width: 0;
+  height: 100%;
+  background-color: rgba(79, 70, 229, 0.1);
+  transform: skewX(-20deg);
+  transition: width 0.3s ease;
+}
+
+.price-tag:hover::before {
+  width: 150%;
+}
+
+/* Action buttons styles */
+.action-button {
+  transition: all 0.2s ease;
+}
+
+.action-button:hover {
+  transform: scale(1.15);
+}
+
+.action-button.edit:hover {
+  color: #3b82f6;
+  background-color: rgba(59, 130, 246, 0.1);
+}
+
+.action-button.delete:hover {
+  color: #ef4444;
+  background-color: rgba(239, 68, 68, 0.1);
+}
+
+/* Empty state container */
+.empty-state {
+  transition: all 0.3s ease;
+}
+
+.empty-state:hover {
+  transform: scale(1.02);
+}
+
+/* Add button pulse animation */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(79, 70, 229, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(79, 70, 229, 0);
+  }
+}
+
+.add-button {
+  animation: pulse 2s infinite;
+}

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {Route, Router, RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-header',
@@ -6,6 +7,8 @@ import { Component } from '@angular/core';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
+  constructor(private route:Router) {
+  }
   navLinks = [
     { path: '/', label: 'Accueil' },
     { path: '/resources', label: 'Resources' },
@@ -13,5 +16,14 @@ export class HeaderComponent {
   ];
   onSearch() {
 
+  }
+
+  goToLogin() {
+    this.route.navigateByUrl("login")
+  }
+
+
+  goTosignin() {
+    this.route.navigateByUrl("signin")
   }
 }

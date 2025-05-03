@@ -1,24 +1,32 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './header/header.component';
-import {ReactiveFormsModule} from "@angular/forms";
+import { HeaderComponent } from './layout/user-layout/header/header.component';
 
-import { HomeComponent } from './home/home.component';
-import { SequenceComponent } from './sequence/sequence.component';
-import {MatToolbar, MatToolbarModule} from "@angular/material/toolbar";
-import {MatButton, MatButtonModule} from "@angular/material/button";
-import {MatTabLink, MatTabNav} from "@angular/material/tabs";
-import {NgOptimizedImage} from "@angular/common";
-import {MatCard, MatCardActions, MatCardHeader, MatCardModule} from "@angular/material/card";
-import { CoursesComponent } from './courses/courses.component';
-import { ReaderPdfComponent } from './reader-pdf/reader-pdf.component';
-import {PdfViewerModule} from "ng2-pdf-viewer";
-import { FooterComponent } from './footer/footer.component';
+import { HomeComponent } from './features/user/home/home.component';
+import { SequenceComponent } from './features/user/sequence/sequence.component';
 
-import { ModalPdfComponent } from './modal-pdf/modal-pdf.component';
+
+import { CoursesComponent } from './features/user/cours/courses.component';
+
+import { PdfViewerModule } from "ng2-pdf-viewer";
+import { FooterComponent } from './layout/user-layout/footer/footer.component';
+
+
+import { NgbModal, NgbModule } from "@ng-bootstrap/ng-bootstrap";
+
+import { CourSequenceComponent } from './features/user/cour-sequence/cour-sequence.component';
+import { QuestionComponent } from './features/user/cours/Quiz/question/question.component';
+import { RegleComponent } from './features/user/cours/Quiz/regle/regle.component';
+import { ResultatComponent } from './features/user/cours/Quiz/resultat/resultat.component';
+import { RegisterComponent } from './features/auth/Register/Registre.component';
+import { LoginComponent } from './features/auth/login/login.component';
+import {AuthGuard} from "./core/guards/auth-guard.guard";
+import {AdminGuard} from "./core/guards/admin-guard.guard";
+
 
 @NgModule({
   declarations: [
@@ -26,27 +34,30 @@ import { ModalPdfComponent } from './modal-pdf/modal-pdf.component';
     HeaderComponent,
     HomeComponent,
     CoursesComponent,
-    ReaderPdfComponent,
+    LoginComponent,
     FooterComponent,
-    ModalPdfComponent
+    RegleComponent,
+    QuestionComponent,
+    ResultatComponent,
+    RegisterComponent,
+      CourSequenceComponent,
+
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatTabNav,
-    MatTabLink,
-    NgOptimizedImage,
-    MatCardModule,
-    MatCardHeader,
-    MatCardActions,
     SequenceComponent,
-    PdfViewerModule
+    PdfViewerModule,
+    NgbModule,
+    FormsModule,
+
 
   ],
-  providers: [],
+  providers: [NgbModal,
+  AuthGuard,
+  AdminGuard
+],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -135,7 +135,10 @@ export class SequenceComponent implements OnInit{
   }
 
   gotoCours() {
-    this.router.navigateByUrl('cours')
+    this.router.navigate(['sequence/coursSequence']);
+    // or if you want relative navigation:
+    // this.router.navigate(['coursSequence'], { relativeTo: this.route });
+    console.log('clik')
   }
 
   ngOnInit(): void {

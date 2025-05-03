@@ -1,0 +1,145 @@
+/* User List Component Styles */
+
+/* Table hover effect */
+.user-table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.user-row {
+  transition: all 0.2s ease;
+}
+
+.user-row:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  position: relative;
+}
+
+/* Custom animation for loading spinner */
+@keyframes pulse-border {
+  0% {
+    border-color: rgba(79, 70, 229, 0.5);
+  }
+  50% {
+    border-color: rgba(79, 70, 229, 1);
+  }
+  100% {
+    border-color: rgba(79, 70, 229, 0.5);
+  }
+}
+
+.loading-spinner {
+  animation: pulse-border 1.5s infinite;
+}
+
+/* Role badge styles */
+.role-badge {
+  transition: all 0.2s ease;
+}
+
+.role-badge:hover {
+  transform: scale(1.1);
+}
+
+.role-badge.admin {
+  background: linear-gradient(to right, #e9d5ff, #d8b4fe);
+}
+
+.role-badge.instructor {
+  background: linear-gradient(to right, #bfdbfe, #93c5fd);
+}
+
+.role-badge.student {
+  background: linear-gradient(to right, #bbf7d0, #86efac);
+}
+
+/* Status badge styles */
+.status-badge {
+  transition: all 0.2s ease;
+}
+
+.status-badge:hover {
+  transform: scale(1.1);
+}
+
+.status-badge.active {
+  background: linear-gradient(to right, #bbf7d0, #86efac);
+}
+
+.status-badge.inactive {
+  background: linear-gradient(to right, #fecaca, #f87171);
+}
+
+/* User avatar styles */
+.user-avatar {
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.user-avatar:hover {
+  transform: scale(1.1);
+  border-color: rgba(79, 70, 229, 0.5);
+}
+
+/* Search input styles */
+.search-input {
+  transition: all 0.3s ease;
+}
+
+.search-input:focus {
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.3);
+}
+
+/* Filter select styles */
+.filter-select {
+  transition: all 0.3s ease;
+}
+
+.filter-select:focus {
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.3);
+}
+
+/* Action buttons styles */
+.action-button {
+  transition: all 0.2s ease;
+}
+
+.action-button:hover {
+  transform: scale(1.15);
+}
+
+.action-button.edit:hover {
+  color: #3b82f6;
+}
+
+.action-button.delete:hover {
+  color: #ef4444;
+}
+
+/* Empty state container */
+.empty-state {
+  transition: all 0.3s ease;
+}
+
+.empty-state:hover {
+  transform: scale(1.02);
+}
+
+/* Add button pulse animation */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(79, 70, 229, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(79, 70, 229, 0);
+  }
+}
+
+.add-button {
+  animation: pulse 2s infinite;
+}
