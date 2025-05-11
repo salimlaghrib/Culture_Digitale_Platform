@@ -1,112 +1,154 @@
-<div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-  <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-6">
-    {{ isEditMode ? 'Modifier' : 'Ajouter' }} un cours
-  </h2>
+<div  class="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center p-4 overflow-y-auto">
+  <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+    <div class="px-6 py-4 border-b border-gray-200 sticky top-0 bg-white z-10">
+      <h2 class="text-xl font-semibold text-gray-800">
+        {{ isEditMode ? 'Modifier le Cours' : 'Nouveau Cours' }}
+      </h2>
+    </div>
 
-  <form (ngSubmit)="onSubmit()" #courseForm="ngForm">
-    <div class="grid grid-cols-1 gap-6 mb-6">
-      <!-- Title field -->
-      <div>
-        <label for="title" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Titre</label>
-        <input type="text" id="title" name="title" [(ngModel)]="course.title" required
-               class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
-      </div>
+    <form (ngSubmit)="onSubmit()" class="p-6 space-y-4">
+      <!-- Basic Information -->
+      <div class="space-y-4">
+        <div class="grid grid-cols-1 gap-4">
+          <!-- Title -->
+          <div>
+            <label for="title" class="block text-sm font-medium text-gray-700 mb-1">Titre</label>
+            <input type="text" id="title" [(ngModel)]="course.title" name="title"
+                   class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                   required>
+          </div>
 
-      <!-- Description field -->
-      <div>
-        <label for="description" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
-        <textarea id="description" name="description" [(ngModel)]="course.description" required rows="3"
-                  class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"></textarea>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- Category field -->
-        <div>
-          <label for="category" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Catégorie</label>
-          <select id="category" name="category" [(ngModel)]="course.category" required
-                  class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
-            <option value="development">Développement</option>
-            <option value="design">Design</option>
-            <option value="marketing">Marketing</option>
-            <option value="business">Business</option>
-          </select>
+          <!-- Description -->
+          <div>
+            <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+            <textarea id="description" [(ngModel)]="course.description" name="description" rows="3"
+                      class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                      required></textarea>
+          </div>
         </div>
 
-        <!-- Instructor field -->
-        <div>
-          <label for="instructor" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Formateur</label>
-          <input type="text" id="instructor" name="instructor" [(ngModel)]="course.instructor" required
-                 class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Training -->
+          <div>
+            <label for="training" class="block text-sm font-medium text-gray-700 mb-1">Formation</label>
+            <select id="training" [(ngModel)]="course.trainingId" name="training"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                    required>
+              <option value="">Sélectionner une formation</option>
+              <option *ngFor="let training of trainings" [value]="training.id">{{ training.title }}</option>
+            </select>
+          </div>
+
+          <!-- Duration -->
+          <div>
+            <label for="duration" class="block text-sm font-medium text-gray-700 mb-1">Durée (heures)</label>
+            <input type="number" id="duration" [(ngModel)]="course.duration" name="duration"
+                   class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                   required min="1">
+          </div>
         </div>
 
-        <!-- Duration field -->
-        <div>
-          <label for="duration" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Durée</label>
-          <input type="text" id="duration" name="duration" [(ngModel)]="course.duration" required
-                 class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
-        </div>
-
-        <!-- Level field -->
-        <div>
-          <label for="level" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Niveau</label>
-          <select id="level" name="level" [(ngModel)]="course.level" required
-                  class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
-            <option value="débutant">Débutant</option>
-            <option value="intermédiaire">Intermédiaire</option>
-            <option value="avancé">Avancé</option>
-          </select>
-        </div>
-
-        <!-- Rating field -->
-        <div>
-          <label for="rating" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Évaluation</label>
-          <input type="number" id="rating" name="rating" [(ngModel)]="course.rating" required min="0" max="5" step="0.1"
-                 class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
-        </div>
-
-        <!-- Enrolled Students field -->
-        <div>
-          <label for="enrolledStudents" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Étudiants inscrits</label>
-          <input type="number" id="enrolledStudents" name="enrolledStudents" [(ngModel)]="course.enrolledStudents" required min="0"
-                 class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
-        </div>
-      </div>
-
-      <!-- PDF Upload field -->
-      <div>
-        <label for="pdfFile" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Document PDF</label>
-        <div class="flex items-center">
-          <label class="flex-grow cursor-pointer bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-600">
-            <div class="flex items-center justify-between">
-              <span class="text-gray-500 dark:text-gray-300 truncate">
-                {{ course.pdfFileName || 'Choisir un fichier PDF...' }}
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- PDF Upload -->
+          <div>
+            <label for="pdfFile" class="block text-sm font-medium text-gray-700 mb-1">Fichier PDF</label>
+            <div class="flex items-center">
+              <input type="file" id="pdfFile" (change)="onFileSelected($event)" accept=".pdf"
+                     class="hidden">
+              <label for="pdfFile" class="cursor-pointer bg-white px-3 py-2 border border-gray-300 rounded-l-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary">
+                Choisir un fichier
+              </label>
+              <span class="flex-1 px-3 py-2 border-t border-b border-r border-gray-300 rounded-r-md text-sm text-gray-500 truncate">
+                {{ course.pdfFile?.name || 'Aucun fichier sélectionné' }}
               </span>
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-              </svg>
             </div>
-            <input type="file" id="pdfFile" name="pdfFile" accept="application/pdf" (change)="onFileSelected($event)" class="hidden">
-          </label>
-          <button *ngIf="course.pdfFileName" type="button" (click)="course.pdfFileName = ''; course.pdfFile = null; selectedFile = null"
-                  class="ml-2 p-2 text-red-500 hover:bg-red-100 rounded-full">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-            </svg>
+          </div>
+
+          <!-- YouTube Link -->
+          <div>
+            <label for="youtubeLink" class="block text-sm font-medium text-gray-700 mb-1">Lien YouTube</label>
+            <input type="url" id="youtubeLink" [(ngModel)]="course.youtubeLink" name="youtubeLink"
+                   class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                   placeholder="https://www.youtube.com/watch?v=...">
+          </div>
+        </div>
+
+        <!-- Status -->
+        <div>
+          <label for="status" class="block text-sm font-medium text-gray-700 mb-1">Statut</label>
+          <select id="status" [(ngModel)]="course.status" name="status"
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                  required>
+            <option value="active">Actif</option>
+            <option value="inactive">Inactif</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Quizzes Section -->
+      <div class="border-t border-gray-200 pt-4">
+        <div class="flex justify-between items-center mb-3">
+          <h3 class="text-lg font-medium text-gray-800">Quiz</h3>
+          <button type="button" (click)="addQuiz()"
+                  class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+            + Ajouter Quiz
           </button>
         </div>
-        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Formats acceptés: PDF uniquement</p>
-      </div>
-    </div>
 
-    <div class="flex justify-end space-x-3">
-      <button type="button" (click)="onCancel()"
-              class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
-        Annuler
-      </button>
-      <button type="submit" [disabled]="!courseForm.form.valid"
-              class="px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed">
-        {{ isEditMode ? 'Mettre à jour' : 'Créer' }}
-      </button>
-    </div>
-  </form>
+        <div *ngFor="let quiz of course.quizzes; let quizIndex = index" class="mb-4 p-3 border border-gray-200 rounded-md bg-gray-50">
+          <div class="flex justify-between items-center mb-2">
+            <h4 class="text-sm font-medium text-gray-700">Question #{{quizIndex + 1}}</h4>
+            <button *ngIf="course.quizzes.length > 1" type="button" (click)="removeQuiz(quizIndex)"
+                    class="text-xs text-red-600 hover:text-red-800">
+              Supprimer
+            </button>
+          </div>
+
+          <!-- Question -->
+          <div class="mb-3">
+            <label [for]="'quizQuestion'+quizIndex" class="block text-xs font-medium text-gray-700 mb-1">Question</label>
+            <input type="text" [id]="'quizQuestion'+quizIndex" [(ngModel)]="quiz.question" [name]="'quizQuestion'+quizIndex"
+                   class="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary">
+          </div>
+
+          <!-- Answers -->
+          <div class="space-y-2">
+            <label class="block text-xs font-medium text-gray-700">Réponses</label>
+            <div *ngFor="let answer of quiz.answers; let answerIndex = index" class="flex items-center gap-2">
+              <input type="text" [(ngModel)]="quiz.answers[answerIndex]" [name]="'quiz'+quizIndex+'answer'+answerIndex"
+                     class="flex-1 px-2 py-1.5 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary">
+              <input type="radio" [name]="'correctAnswer'+quizIndex" [value]="answerIndex" [(ngModel)]="quiz.correctAnswerIndex"
+                     class="h-4 w-4 text-primary focus:ring-primary border-gray-300">
+              <span class="text-xs text-gray-500">Correcte</span>
+              <button *ngIf="quiz.answers.length > 2" type="button" (click)="removeAnswer(quizIndex, answerIndex)"
+                      class="text-red-500 hover:text-red-700">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                </svg>
+              </button>
+            </div>
+            <button *ngIf="quiz.answers.length < 4" type="button" (click)="addAnswer(quizIndex)"
+                    class="inline-flex items-center text-xs text-primary hover:text-primary-dark mt-1">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
+              </svg>
+              Ajouter réponse
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form Actions -->
+      <div class="flex justify-end space-x-3 pt-4 border-t border-gray-200 sticky bottom-0 bg-white pb-2">
+        <button type="button" (click)="onCancel()"
+                class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+          Annuler
+        </button>
+        <button type="submit"
+                class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+          {{ isEditMode ? 'Mettre à jour' : 'Créer' }}
+        </button>
+      </div>
+    </form>
+  </div>
 </div>

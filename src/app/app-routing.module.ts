@@ -1,14 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CourSequenceComponent } from "../app/features/user/cour-sequence/cour-sequence.component";
-import { CoursesComponent } from "../app/features/user/cours/courses.component";
-import { SequenceComponent } from "../app/features/user/sequence/sequence.component";
-import { AdminGuard } from './core/guards/admin-guard.guard';
-import { AuthGuard } from './core/guards/auth-guard.guard';
+import { SequenceDetailComponent } from "./features/user/sequences/sequence-detail/sequence-detail.component";
+import { CoursePlayerComponent } from "../app/features/user/courses/course-player/course-player.component";
+import { SequenceListComponent } from "./features/user/sequences/sequence-list/sequence-list.component";
+import { AdminGuard } from '../app/core/guards/admin.guard';
+import { AuthGuard } from '../app/core/guards/auth.guard';
 import { RegisterComponent } from "./features/auth/Register/Registre.component";
 import { LoginComponent } from "./features/auth/login/login.component";
 import { HomeComponent } from "./features/user/home/home.component";
 import { AdminLayoutComponent } from './layout/admin-layout/admin-layout.component';
+import { UserGuard } from './core/guards/user.guard';
 
 const routes: Routes = [
   // Public routes
@@ -62,22 +63,24 @@ const routes: Routes = [
     ]
   },
 
-  // User space (courses)
   {
-    path: 'sequence',
-    canActivate: [AuthGuard],
-    component: SequenceComponent,
+    path: 'sequences',
+    canActivate: [AuthGuard, UserGuard],
     children: [
       {
-        path: 'coursSequence',
-        component: CourSequenceComponent,
+        path: '',
+        component: SequenceListComponent // Liste des séquences
+      },
+      {
+        path: ':sequenceId',
+        component: SequenceDetailComponent, // Détail d'une séquence
         children: [
           {
-            path: 'cours',
-            component: CoursesComponent
+            path: 'courses/:courseId',
+            component: CoursePlayerComponent // Player de cours
           }
         ]
-      },
+      }
     ]
   },
 

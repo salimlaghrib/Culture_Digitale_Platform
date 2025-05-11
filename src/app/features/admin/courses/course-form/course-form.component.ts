@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -13,55 +13,85 @@ export class CourseFormComponent implements OnInit {
     id: null,
     title: '',
     description: '',
-    category: 'development',
-    instructor: '',
-    duration: '',
-    level: 'débutant',
-    rating: 0,
-    enrolledStudents: 0,
+    trainingId: '',
+    duration: 0,
+    status: 'active',
+    createdAt: new Date().toISOString(),
     pdfFile: null,
-    pdfFileName: ''
+    youtubeLink: '',
+    quizzes: []
   };
 
+  @Input() trainings: any[] = [];
   @Input() isEditMode: boolean = false;
   @Output() save = new EventEmitter<any>();
   @Output() cancel = new EventEmitter<void>();
+  @Output() quizzes = new EventEmitter<any[]>();
 
-  selectedFile: File | null = null;
+  isFormVisible: boolean = false;
 
   constructor() {}
 
-  ngOnInit(): void {}
-
-  onFileSelected(event: any): void {
-    const file = event.target.files[0];
-    if (file && file.type === 'application/pdf') {
-      this.selectedFile = file;
-      this.course.pdfFileName = file.name;
-
-      // In a real app, you would upload the file to a server here
-      // and store the file reference in the course object
-      // For now, we'll just store the file object directly
-      this.course.pdfFile = file;
-    } else {
-      // Reset if not a PDF
-      this.selectedFile = null;
-      this.course.pdfFileName = '';
-      this.course.pdfFile = null;
-      alert('Veuillez sélectionner un fichier PDF valide.');
+  ngOnInit(): void {
+    if (!this.course.quizzes) {
+      this.course.quizzes = [];
+    }
+    if (this.course.quizzes.length === 0) {
+      this.addQuiz();
     }
   }
 
   onSubmit(): void {
-    // Clone the course object to avoid reference issues
     const courseToSave = { ...this.course };
-
-    // In a real app, validation would happen here
-
+    console.log('Course data being submitted:', courseToSave);
     this.save.emit(courseToSave);
+    // Emit quizzes separately for backend sync
+    if (Array.isArray(this.course.quizzes)) {
+      this.quizzes.emit(this.course.quizzes);
+    }
   }
 
   onCancel(): void {
     this.cancel.emit();
+  }
+
+  onFileSelected(event: any): void {
+    const file: File = event.target.files[0];
+    if (file) {
+      this.course.pdfFile = file;
+    }
+  }
+
+  addCourse(): void {
+    this.isFormVisible = true;
+  }
+
+  addQuiz(): void {
+    this.course.quizzes.push({
+      question: '',
+      answers: ['', ''],
+      correctAnswerIndex: 0
+    });
+  }
+
+  removeQuiz(index: number): void {
+    if (this.course.quizzes.length > 1) {
+      this.course.quizzes.splice(index, 1);
+    }
+  }
+
+  addAnswer(quizIndex: number): void {
+    if (this.course.quizzes[quizIndex].answers.length < 4) {
+      this.course.quizzes[quizIndex].answers.push('');
+    }
+  }
+
+  removeAnswer(quizIndex: number, answerIndex: number): void {
+    if (this.course.quizzes[quizIndex].answers.length > 2) {
+      this.course.quizzes[quizIndex].answers.splice(answerIndex, 1);
+      if (this.course.quizzes[quizIndex].correctAnswerIndex >= answerIndex) {
+        this.course.quizzes[quizIndex].correctAnswerIndex = Math.max(0, this.course.quizzes[quizIndex].correctAnswerIndex - 1);
+      }
+    }
   }
 }

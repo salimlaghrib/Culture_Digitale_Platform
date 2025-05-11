@@ -1,0 +1,69 @@
+<div class="container mx-auto px-4 py-8">
+  <!-- Header Section -->
+  <section class="mb-8 text-center">
+    <h1 class="text-3xl font-bold mb-4">Nos cours de Culture Digitale</h1>
+    <p class="text-gray-600 mb-6">Explorez notre catalogue complet de formations pour développer vos compétences numériques</p>
+
+    <!-- Search Bar -->
+    <div class="max-w-md mx-auto relative">
+      <input
+        type="text"
+        placeholder="Rechercher un cours..."
+        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+        (input)="onSearch($event)"
+      >
+      <button class="absolute right-3 top-2.5 text-gray-500">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- Sequences Section -->
+  <section>
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-2xl font-bold">Mes formations</h2>
+
+      <!-- Filter Dropdown -->
+      <div class="relative">
+        <button class="flex items-center space-x-1 bg-primary text-white px-4 py-2 rounded-lg hover:bg-opacity-90 transition-colors duration-200">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+          </svg>
+          <span>Filtrer</span>
+        </button>
+        <!-- Dropdown menu would go here -->
+      </div>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="loading" class="flex justify-center items-center py-12">
+      <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="error" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6">
+      <strong class="font-bold">Erreur!</strong>
+      <span class="block sm:inline"> Impossible de charger les séquences. Veuillez réessayer plus tard.</span>
+    </div>
+
+    <!-- Sequences Grid -->
+    <div *ngIf="!loading && !error"  class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 m-4 shadow-lg rounded-lg">
+      <app-sequence-card
+        *ngFor="let sequence of sequences"
+        [sequence]="sequence"
+        (sequenceSelected)="onSequenceSelected($event)"
+      ></app-sequence-card>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="!loading && !error && sequences.length === 0" class="text-center py-12">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      <h3 class="text-xl font-medium text-gray-900 mb-2">Aucune séquence trouvée</h3>
+      <p class="text-gray-500">Aucune séquence ne correspond à votre recherche.</p>
+    </div>
+  </section>
+</div>

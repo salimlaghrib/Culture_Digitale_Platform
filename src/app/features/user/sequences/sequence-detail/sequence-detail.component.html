@@ -1,0 +1,119 @@
+<div class="container mx-auto px-4 py-8">
+  <!-- Back Button -->
+  <button
+    (click)="goBack()"
+    class="flex items-center text-gray-600 hover:text-gray-900 mb-6"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+    </svg>
+    Retour aux séquences
+  </button>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="flex justify-center items-center py-12">
+    <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6">
+    <strong class="font-bold">Erreur!</strong>
+    <span class="block sm:inline"> Impossible de charger les détails de la séquence. Veuillez réessayer plus tard.</span>
+  </div>
+
+  <!-- Sequence Details -->
+  <div *ngIf="!loading && !error && sequence">
+    <!-- Header -->
+    <div class="mb-8">
+      <div class="flex flex-col md:flex-row gap-6">
+        <!-- Image -->
+        <div class="md:w-1/3">
+          <img
+            [src]="sequence.imagePath || 'assets/images/placeholder.jpg'"
+            [alt]="sequence.title + ' illustration'"
+            class="w-full h-auto rounded-lg shadow-md"
+          >
+        </div>
+
+        <!-- Info -->
+        <div class="md:w-2/3">
+          <h1 class="text-3xl font-bold mb-2">{{ sequence.title }}</h1>
+          <p class="text-xl text-gray-600 mb-4">{{ sequence.subtitle }}</p>
+
+          <!-- Stats -->
+          <div class="flex flex-wrap gap-4 mb-4">
+            <div class="flex items-center text-gray-600">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              {{ sequence.duration }} minutes
+            </div>
+            <div class="flex items-center text-gray-600">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+              </svg>
+              {{ sequence.courses.length }} cours
+            </div>
+            <div
+              class="flex items-center px-3 py-1 rounded-full text-sm font-medium"
+              [ngClass]="{
+                'bg-green-100 text-green-800': sequence.difficulty === 'beginner',
+                'bg-yellow-100 text-yellow-800': sequence.difficulty === 'intermediate',
+                'bg-red-100 text-red-800': sequence.difficulty === 'advanced'
+              }"
+            >
+              {{ sequence.difficulty | titlecase }}
+            </div>
+          </div>
+
+          <!-- Tags -->
+          <div class="flex flex-wrap gap-2 mb-6" *ngIf="sequence.tags && sequence.tags.length > 0">
+            <span
+              *ngFor="let tag of sequence.tags"
+              class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-full"
+            >
+              {{ tag }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Courses List -->
+    <div>
+      <h2 class="text-2xl font-bold mb-4">Cours de cette séquence</h2>
+
+      <div *ngIf="sequence.courses.length === 0" class="text-center py-8 bg-gray-50 rounded-lg">
+        <p class="text-gray-500">Aucun cours disponible pour cette séquence.</p>
+      </div>
+
+      <div *ngIf="sequence.courses.length > 0" class="space-y-4">
+        <div
+          *ngFor="let course of sequence.courses; let i = index"
+          class="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition cursor-pointer"
+          (click)="goToCourse(course)"
+        >
+          <div class="flex items-center">
+            <!-- Number -->
+            <div class="flex-shrink-0 w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center mr-4">
+              {{ i + 1 }}
+            </div>
+
+            <!-- Content -->
+            <div class="flex-grow">
+              <h3 class="text-lg font-medium">{{ course.title }}</h3>
+              <p *ngIf="course.description" class="text-gray-600">{{ course.description }}</p>
+            </div>
+
+            <!-- Arrow -->
+            <div class="flex-shrink-0 ml-4">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,130 +1,228 @@
-<div class="login-container">
-  <!-- Background image container -->
-  <div class="login-background"></div>
-
-  <!-- Content container -->
-  <div class="login-content">
+<div class="min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat" style="background-image: url('assets/image/background.jpg');">
+  <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+  <div class="max-w-sm w-full space-y-6 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg relative z-10">
     <!-- Logo section -->
-    <div class="logo-box">
+    <div class="flex justify-center">
       <img
-        src="assets/image/digitalAcademy.png"
+        src="assets/image/logo.png"
         alt="Digital Academy - Apprendre la culture digitale"
-        class="logo-img"
-        width="276"
+        class="h-12 w-auto "
       >
     </div>
 
     <!-- Titre et sous-titre -->
-    <div class="header-content text-center">
-      <h1 class="fs-4 fw-bold mb-2">Commencez votre voyage digital</h1>
-      <p class="text-muted fs-6">
+    <div class="text-center">
+      <h1 class="text-xl font-bold text-gray-900 dark:text-white">Commencez votre voyage digital</h1>
+      <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
         Créez votre compte gratuit en 1 minute
-      </p>
-      <p class="small text-muted mt-2">
-        Déjà membre ? <a href="/login" class="text-decoration-none">Connectez-vous</a>
       </p>
     </div>
 
     <!-- Register form -->
-    <div class="login-form">
-      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-        <div class="form-group mb-3">
-          <div class="d-flex justify-content-between gap-2">
-            <div class="input-wrapper">
-              <input type="text" id="firstName" class="form-control" placeholder=" " formControlName="firstName">
-              <label for="firstName" class="form-label">Prénom</label>
-              <i class="bi bi-person icon"></i>
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="mt-6 space-y-4">
+      <!-- Name fields -->
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label for="firstName" class="block text-xs font-medium text-gray-700 dark:text-gray-300">Prénom</label>
+          <div class="mt-1 relative rounded-md shadow-sm">
+            <div class="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
+              <i class="bi bi-person text-gray-400 text-sm"></i>
             </div>
-            <div class="input-wrapper">
-              <input type="text" id="lastName" class="form-control" placeholder=" " formControlName="lastName">
-              <label for="lastName" class="form-label">Nom</label>
-              <i class="bi bi-person icon"></i>
-            </div>
+            <input
+              type="text"
+              id="firstName"
+              formControlName="firstName"
+              class="block w-full pl-8 pr-3 py-1.5 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              [ngClass]="{'border-red-500 focus:ring-red-500 focus:border-red-500': submitted && f['firstName'].errors}"
+              placeholder="John"
+            >
           </div>
-          <div *ngIf="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched"
-               class="text-danger small">
+          <div *ngIf="submitted && f['firstName'].errors" class="mt-1 text-xs text-red-600 dark:text-red-400">
             Prénom requis
           </div>
         </div>
 
-        <div class="form-group mb-3">
-          <div class="input-wrapper">
-            <input type="text" id="phone" class="form-control" placeholder=" " formControlName="phoneNumber">
-            <label for="phone" class="form-label">Téléphone</label>
-            <i class="bi bi-phone icon"></i>
+        <div>
+          <label for="lastName" class="block text-xs font-medium text-gray-700 dark:text-gray-300">Nom</label>
+          <div class="mt-1 relative rounded-md shadow-sm">
+            <div class="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
+              <i class="bi bi-person text-gray-400 text-sm"></i>
+            </div>
+            <input
+              type="text"
+              id="lastName"
+              formControlName="lastName"
+              class="block w-full pl-8 pr-3 py-1.5 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              [ngClass]="{'border-red-500 focus:ring-red-500 focus:border-red-500': submitted && f['lastName'].errors}"
+              placeholder="Doe"
+            >
+          </div>
+          <div *ngIf="submitted && f['lastName'].errors" class="mt-1 text-xs text-red-600 dark:text-red-400">
+            Nom requis
+          </div>
+        </div>
+      </div>
+
+      <!-- Phone and Birth Date fields -->
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label for="phone" class="block text-xs font-medium text-gray-700 dark:text-gray-300">Téléphone</label>
+          <div class="mt-1 relative rounded-md shadow-sm">
+            <div class="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
+              <i class="bi bi-phone text-gray-400 text-sm"></i>
+            </div>
+            <input
+              type="tel"
+              id="phone"
+              formControlName="phoneNumber"
+              class="block w-full pl-8 pr-3 py-1.5 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              placeholder="+33 6 12 34 56 78"
+            >
           </div>
         </div>
 
-        <div class="form-group mb-3">
-          <div class="input-wrapper">
-            <input type="email" id="email" class="form-control" placeholder=" " formControlName="email">
-            <label for="email" class="form-label">Email</label>
-            <i class="bi bi-envelope icon"></i>
-          </div>
-          <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="text-danger small">
-            Email invalide
-          </div>
-        </div>
-
-        <div class="form-group mb-3">
-          <div class="input-wrapper">
-            <input [type]="passwordFieldType" id="password" class="form-control" placeholder=" " formControlName="password">
-            <label for="password" class="form-label">Password</label>
-            <i class="bi bi-lock icon"></i>
-            <i class="icon2" (click)="eyebutton()"
-               [ngClass]="{'bi-eye': open, 'bi-eye-slash': !open}">
-            </i>
-          </div>
-          <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="text-danger small">
-            Minimum 6 caractères
+        <div>
+          <label for="birthDate" class="block text-xs font-medium text-gray-700 dark:text-gray-300">Date de naissance</label>
+          <div class="mt-1 relative rounded-md shadow-sm">
+            <div class="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
+              <i class="bi bi-calendar text-gray-400 text-sm"></i>
+            </div>
+            <input
+              type="date"
+              id="birthDate"
+              formControlName="birthDate"
+              class="block w-full pl-8 pr-3 py-1.5 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+            >
           </div>
         </div>
+      </div>
 
-        <div class="form-group mb-3">
-          <div class="input-wrapper">
-            <input [type]="passwordFieldType" id="confirmPassword" class="form-control" placeholder=" " formControlName="confirmPassword">
-            <label for="confirmPassword" class="form-label">Confirm password</label>
-            <i class="bi bi-lock icon"></i>
-            <i class="icon2" (click)="eyebutton()"
-               [ngClass]="{'bi-eye': open, 'bi-eye-slash': !open}">
-            </i>
+      <!-- Email field -->
+      <div>
+        <label for="email" class="block text-xs font-medium text-gray-700 dark:text-gray-300">Email</label>
+        <div class="mt-1 relative rounded-md shadow-sm">
+          <div class="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
+            <i class="bi bi-envelope text-gray-400 text-sm"></i>
           </div>
-          <div *ngIf="registerForm.hasError('mismatch')" class="text-danger small">
-            Les mots de passe ne correspondent pas
+          <input
+            type="email"
+            id="email"
+            formControlName="email"
+            class="block w-full pl-8 pr-3 py-1.5 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+            [ngClass]="{'border-red-500 focus:ring-red-500 focus:border-red-500': submitted && f['email'].errors}"
+            placeholder="votre@email.com"
+          >
+        </div>
+        <div *ngIf="submitted && f['email'].errors" class="mt-1 text-xs text-red-600 dark:text-red-400">
+          <span *ngIf="f['email'].errors['required']">Email est requis</span>
+          <span *ngIf="f['email'].errors['email']">Email est invalide</span>
+        </div>
+      </div>
+
+      <!-- Password field -->
+      <div>
+        <label for="password" class="block text-xs font-medium text-gray-700 dark:text-gray-300">Mot de passe</label>
+        <div class="mt-1 relative rounded-md shadow-sm">
+          <div class="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
+            <i class="bi bi-lock text-gray-400 text-sm"></i>
+          </div>
+          <input
+            [type]="passwordFieldType"
+            id="password"
+            formControlName="password"
+            class="block w-full pl-8 pr-8 py-1.5 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+            [ngClass]="{'border-red-500 focus:ring-red-500 focus:border-red-500': submitted && f['password'].errors}"
+            placeholder="••••••••"
+          >
+          <div class="absolute inset-y-0 right-0 pr-2 flex items-center">
+            <button type="button" (click)="eyebutton()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+              <i class="bi text-sm" [ngClass]="{'bi-eye': open, 'bi-eye-slash': !open}"></i>
+            </button>
           </div>
         </div>
-
-        <div *ngIf="errorMessage" class="alert alert-danger text-center small py-2 mb-3">
-          {{ errorMessage }}
+        <div *ngIf="submitted && f['password'].errors" class="mt-1 text-xs text-red-600 dark:text-red-400">
+          <span *ngIf="f['password'].errors['required']">Mot de passe est requis</span>
+          <span *ngIf="f['password'].errors['minlength']">Minimum 6 caractères</span>
         </div>
+      </div>
 
-        <div class="d-flex justify-content-center">
-          <button class="btnlogin" type="submit" [disabled]="registerForm.invalid || isLoading">
-            <span *ngIf="!isLoading">S'inscrire</span>
-            <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-          </button>
+      <!-- Confirm Password field -->
+      <div>
+        <label for="confirmPassword" class="block text-xs font-medium text-gray-700 dark:text-gray-300">Confirmer le mot de passe</label>
+        <div class="mt-1 relative rounded-md shadow-sm">
+          <div class="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
+            <i class="bi bi-lock text-gray-400 text-sm"></i>
+          </div>
+          <input
+            [type]="passwordFieldType"
+            id="confirmPassword"
+            formControlName="confirmPassword"
+            class="block w-full pl-8 pr-8 py-1.5 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+            placeholder="••••••••"
+          >
+          <div class="absolute inset-y-0 right-0 pr-2 flex items-center">
+            <button type="button" (click)="eyebutton()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+              <i class="bi text-sm" [ngClass]="{'bi-eye': open, 'bi-eye-slash': !open}"></i>
+            </button>
+          </div>
         </div>
+        <div *ngIf="registerForm.hasError('mismatch')" class="mt-1 text-xs text-red-600 dark:text-red-400">
+          Les mots de passe ne correspondent pas
+        </div>
+      </div>
 
-        <!-- OR Divider -->
-        <div class="divider d-flex align-items-center mb-3">
-          <div class="line flex-grow-1"></div>
-          <span class="px-3">OR</span>
-          <div class="line flex-grow-1"></div>
-        </div>
+      <!-- Error message -->
+      <div *ngIf="errorMessage" class="bg-red-50 border border-red-200 text-red-800 rounded-md p-2 text-xs">
+        {{ errorMessage }}
+      </div>
 
-        <!-- Social buttons -->
-        <div class="d-flex justify-content-center gap-3">
-          <button type="button" class="media-button btn btn-outline-primary rounded-circle">
-            <i class="bi bi-google"></i>
-          </button>
-          <button type="button" class="media-button btn btn-outline-primary rounded-circle">
-            <i class="bi bi-facebook"></i>
-          </button>
-          <button type="button" class="media-button btn btn-outline-primary rounded-circle">
-            <i class="bi bi-twitter-x"></i>
-          </button>
+      <!-- Submit button -->
+      <div>
+        <button
+          type="submit"
+          class="w-full flex justify-center py-1.5 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors duration-200"
+          [disabled]="isLoading"
+        >
+          <span *ngIf="!isLoading">S'inscrire</span>
+          <svg *ngIf="isLoading" class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+        </button>
+      </div>
+
+      <!-- OR Divider
+      <div class="relative">
+        <div class="absolute inset-0 flex items-center">
+          <div class="w-full border-t border-gray-300 dark:border-gray-600"></div>
         </div>
-      </form>
-    </div>
+        <div class="relative flex justify-center text-xs">
+          <span class="px-2 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400">OU</span>
+        </div>
+      </div> -->
+
+      <!-- Social buttons
+      <div class="flex items-center justify-center space-x-3">
+        <button type="button" class="p-1.5 rounded-full border border-gray-300 hover:bg-gray-50 dark:border-gray-600 dark:hover:bg-gray-700 transition-colors duration-200">
+          <i class="bi bi-google text-base text-gray-600 dark:text-gray-400"></i>
+        </button>
+        <button type="button" class="p-1.5 rounded-full border border-gray-300 hover:bg-gray-50 dark:border-gray-600 dark:hover:bg-gray-700 transition-colors duration-200">
+          <i class="bi bi-facebook text-base text-gray-600 dark:text-gray-400"></i>
+        </button>
+        <button type="button" class="p-1.5 rounded-full border border-gray-300 hover:bg-gray-50 dark:border-gray-600 dark:hover:bg-gray-700 transition-colors duration-200">
+          <i class="bi bi-twitter-x text-base text-gray-600 dark:text-gray-400"></i>
+        </button>
+      </div> -->
+
+      <!-- Login link -->
+      <div class="text-center mt-3">
+        <p class="text-xs text-gray-600 dark:text-gray-400">
+          Déjà membre?
+          <a routerLink="/login" class="font-medium text-primary hover:text-primary-dark">
+            Connectez-vous
+          </a>
+        </p>
+      </div>
+    </form>
   </div>
 </div>

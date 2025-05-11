@@ -1,13 +1,23 @@
-<div class="home d-flex flex-column flex-md-row align-items-center">
-  <div class="p-2 col-6 d-flex flex-column align-items-center justify-content-center">
-    <h1 style="text-align: center ;color: #336AEA;width: 80%">Bienvenue sur le Site d'Enseignement de la Culture Digitale</h1>
-    <p style="text-align: center ;width: 80%" >Explorez les ressources pédagogiques et interagissez avec notre chatbot pour enrichir votre apprentissage.</p>
-    <div class="justify-content-between gap-2">
-      <button class="btn btn-primary ms-2" (click)="gotosequence()">Commencer <i class="bi bi-arrow-right"></i></button>
-      <button class="btn btn-outline-primary ms-2">CultureGPT <i class="bi bi-chat-square-dots"></i></button>
+
+<div class="home flex flex-col md:flex-row items-center bg-white p-4 md:p-8">
+  <div class="w-full md:w-1/2 flex flex-col items-center justify-center p-4 space-y-6">
+    <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-center text-blue-600 w-4/5">
+      Bienvenue sur le Site d'Enseignement de la Culture Digitale
+    </h1>
+    <p class="text-lg text-center text-gray-600 w-4/5">
+      Explorez les ressources pédagogiques et interagissez avec notre chatbot pour enrichir votre apprentissage.
+    </p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center w-full">
+      <button (click)="gotosequence()"  class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition duration-300 flex items-center">
+        Commencer <i class="bi bi-arrow-right ml-2"></i>
+      </button>
+      <button class="border border-blue-600 text-blue-600 hover:bg-blue-50 font-medium py-2 px-6 rounded-lg transition duration-300 flex items-center">
+        CultureGPT <i class="bi bi-chat-square-dots ml-2"></i>
+      </button>
+
     </div>
   </div>
-  <div class="image p-2">
-    <img src="assets/image/homeperson.png" alt="person" class="img-fluid">
+  <div class="w-full md:w-1/2 p-4 flex justify-center">
+    <img src="assets/image/homeperson.png" alt="person" class="max-w-full h-auto md:max-w-md lg:max-w-lg">
   </div>
 </div>

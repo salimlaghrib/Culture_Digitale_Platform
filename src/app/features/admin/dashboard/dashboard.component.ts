@@ -1,68 +1,84 @@
+import { CommonModule, DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { finalize } from 'rxjs/operators';
+import { AdminService } from '../services/admin.service';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './dashboard.component.html',
-  styleUrls: []
+  providers: [DatePipe]
 })
 export class DashboardComponent implements OnInit {
   stats = {
     totalUsers: 0,
-    activeUsers: 0,
     totalTrainings: 0,
-    totalCourses: 0
+    totalCourses: 0,
+    activeEnrollments: 0,
+    userGrowth: 0,
+    completionRate: 0
   };
 
-  recentTrainings: any[] = [];
-  recentUsers: any[] = [];
+  recentActivity: any[] = [];
+  isLoading = true;
+  lastUpdated: Date | null = null;
+  error: string | null = null;
 
-  constructor() { }
+  constructor(
+    private adminService: AdminService,
+    private datePipe: DatePipe
+  ) {}
 
   ngOnInit(): void {
-    // In a real app, these would be fetched from a service
-    this.fetchDashboardData();
+    this.loadDashboardData();
   }
 
-  fetchDashboardData(): void {
-    // Simulate API calls with mock data
-    this.stats = {
-      totalUsers: 4,
-      activeUsers: 3,
-      totalTrainings: 3,
-      totalCourses: 4
-    };
+  private loadDashboardData(): void {
+    this.isLoading = true;
+    this.error = null;
+    
+    this.adminService.getDashboardStats()
+      .pipe(
+        finalize(() => this.isLoading = false)
+      )
+      .subscribe({
+        next: (data) => {
+          this.stats = {
+            ...this.stats,
+            ...data.stats,
+            completionRate: this.calculateCompletionRate(data.stats)
+          };
+          this.recentActivity = this.processActivityData(data.recentActivity);
+          this.lastUpdated = new Date();
+        },
+        error: (err) => {
+          console.error('Error loading dashboard data:', err);
+          this.error = 'Failed to load dashboard data. Please try again later.';
+        }
+      });
+  }
 
-    this.recentTrainings = [
-      {
-        id: 1,
-        title: 'Introduction à Angular',
-        category: 'Développement Web',
-        createdAt: new Date('2023-01-15T10:30:00Z')
-      },
-      {
-        id: 2,
-        title: 'Tailwind CSS Avancé',
-        category: 'Design Web',
-        createdAt: new Date('2023-03-10T09:15:00Z')
-      }
-    ];
+  private calculateCompletionRate(stats: any): number {
+    if (stats.totalEnrollments && stats.completedEnrollments) {
+      return Math.round((stats.completedEnrollments / stats.totalEnrollments) * 100);
+    }
+    return 0;
+  }
 
-    this.recentUsers = [
-      {
-        id: 1,
-        name: 'Admin User',
-        email: 'admin@example.com',
-        role: 'Admin'
-      },
-      {
-        id: 2,
-        name: 'Trainer User',
-        email: 'trainer@example.com',
-        role: 'Formateur'
-      }
-    ];
+  private processActivityData(activities: any[]): any[] {
+    return activities.map(activity => ({
+      ...activity,
+      date: new Date(activity.date),
+      status: activity.status || 'completed'
+    })).sort((a, b) => b.date.getTime() - a.date.getTime());
+  }
+
+  refreshData(): void {
+    this.loadDashboardData();
+  }
+
+  getFormattedDate(date: Date): string {
+    return this.datePipe.transform(date, 'medium') || '';
   }
 }

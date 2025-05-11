@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -13,9 +13,9 @@ export class UserFormComponent implements OnInit {
     id: null,
     name: '',
     email: '',
-    role: 'student',
+    role: 'Apprenant',
     status: 'active',
-    registeredDate: new Date().toISOString().split('T')[0],
+    createdAt: new Date().toISOString().split('T')[0],
     lastLogin: new Date().toISOString().split('T')[0]
   };
 
@@ -28,11 +28,7 @@ export class UserFormComponent implements OnInit {
   ngOnInit(): void {}
 
   onSubmit(): void {
-    // Clone the user object to avoid reference issues
     const userToSave = { ...this.user };
-
-    // In a real app, validation would happen here
-
     this.save.emit(userToSave);
   }
 

@@ -1,0 +1,61 @@
+<div class="bg-white rounded-lg shadow-md p-4 hover:shadow-xl transition cursor-pointer " (click)="goToSequence()">
+  <!-- Image -->
+  <div class="relative mb-3 overflow-hidden rounded-lg">
+    <img
+      [src]="sequence.imagePath || 'assets/images/placeholder.jpg'"
+      [alt]="sequence.title + ' illustration'"
+      class="w-full h-40 object-cover transition-transform duration-300 hover:scale-105"
+    >
+    <!-- Difficulty badge -->
+    <span
+      class="absolute top-2 right-2 px-2 py-1 text-xs font-semibold rounded-full"
+      [ngClass]="{
+        'bg-green-100 text-green-800': sequence.difficulty === 'beginner',
+        'bg-yellow-100 text-yellow-800': sequence.difficulty === 'intermediate',
+        'bg-red-100 text-red-800': sequence.difficulty === 'advanced'
+      }"
+    >
+      {{ sequence.difficulty | titlecase }}
+    </span>
+  </div>
+
+  <!-- Content -->
+  <h3 class="text-xl font-bold text-gray-800 mb-1">{{ sequence.title }}</h3>
+  <p class="text-gray-600 mb-3">{{ sequence.subtitle }}</p>
+
+  <!-- Stats -->
+  <div class="flex justify-between text-sm mb-3">
+    <div class="flex items-center text-gray-600">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      {{ sequence.duration }} min
+    </div>
+    <div class="flex items-center text-gray-600">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+      </svg>
+      {{ sequence.courseCount || sequence.courses.length || 0 }} cours
+    </div>
+  </div>
+
+  <!-- Tags -->
+  <div class="flex flex-wrap gap-1 mb-3" *ngIf="sequence.tags && sequence.tags.length > 0">
+    <span
+      *ngFor="let tag of sequence.tags"
+      class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-full"
+    >
+      {{ tag }}
+    </span>
+  </div>
+
+  <!-- Button -->
+  <button
+    class="w-full bg-primary text-white px-4 py-2 rounded-lg hover:bg-opacity-90 transition-colors duration-200 flex items-center justify-center"
+  >
+    Voir la séquence
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+    </svg>
+  </button>
+</div>

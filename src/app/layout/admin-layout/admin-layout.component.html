@@ -1,12 +1,11 @@
 <div class="flex h-screen bg-gray-50 dark:bg-gray-900">
   <!-- Sidebar -->
-  <aside [class]="isSidenavCollapsed ? 'w-20' : 'w-64'" class="transition-all duration-300 bg-white dark:bg-gray-800 shadow-md">
+  <aside [class]="isSidenavCollapsed ? 'w-20' : 'w-64'" class="transition-all duration-300 bg-white dark:bg-gray-800 shadow-md z-10">
     <div class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
-      <div class="flex items-center">
-        <img src="assets/images/logo.png" alt="Logo" class="h-8 w-8 mr-2" *ngIf="!isSidenavCollapsed">
-        <h1 class="text-xl font-semibold text-gray-800 dark:text-white" *ngIf="!isSidenavCollapsed">CultureAcad</h1>
+      <div class="flex items-center w-full">
+        <img src="../../../assets/image/logo.png" alt="Logo" class="w-full h-auto" *ngIf="!isSidenavCollapsed">
       </div>
-      <button (click)="toggleSidenav()" class="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
+      <button (click)="toggleSidenav()" class="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-500 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
         </svg>
@@ -15,7 +14,7 @@
 
     <nav class="mt-5 px-2">
       <a routerLink="/admin/dashboard" routerLinkActive="bg-primary-light dark:bg-primary-dark text-white"
-         class="flex items-center px-4 py-2 mt-2 text-gray-600 dark:text-gray-400 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700">
+         class="flex items-center px-4 py-2 mt-2 text-gray-600 dark:text-gray-400 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
         </svg>
@@ -23,7 +22,7 @@
       </a>
 
       <a routerLink="/admin/users" routerLinkActive="bg-primary-light dark:bg-primary-dark text-white"
-         class="flex items-center px-4 py-2 mt-2 text-gray-600 dark:text-gray-400 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700">
+         class="flex items-center px-4 py-2 mt-2 text-gray-600 dark:text-gray-400 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
         </svg>
@@ -31,7 +30,7 @@
       </a>
 
       <a routerLink="/admin/trainings" routerLinkActive="bg-primary-light dark:bg-primary-dark text-white"
-         class="flex items-center px-4 py-2 mt-2 text-gray-600 dark:text-gray-400 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700">
+         class="flex items-center px-4 py-2 mt-2 text-gray-600 dark:text-gray-400 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
         </svg>
@@ -39,7 +38,7 @@
       </a>
 
       <a routerLink="/admin/courses" routerLinkActive="bg-primary-light dark:bg-primary-dark text-white"
-         class="flex items-center px-4 py-2 mt-2 text-gray-600 dark:text-gray-400 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700">
+         class="flex items-center px-4 py-2 mt-2 text-gray-600 dark:text-gray-400 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
         </svg>
@@ -57,19 +56,56 @@
           <h2 class="text-xl font-semibold text-gray-800 dark:text-white">Interface d'administration</h2>
         </div>
         <div class="flex items-center space-x-4">
-          <button (click)="toggleDarkMode()" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
+          <!-- Dark mode toggle -->
+          <button (click)="toggleDarkMode()" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200" [title]="isDarkMode ? 'Mode clair' : 'Mode sombre'">
             <svg *ngIf="!isDarkMode" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-500 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
             </svg>
-            <svg *ngIf="isDarkMode" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-500 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg *ngIf="isDarkMode" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
             </svg>
           </button>
-          <div class="relative">
-            <button class="flex items-center text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">
-              <span class="mr-2">Admin</span>
-              <img class="h-8 w-8 rounded-full" src="https://ui-avatars.com/api/?name=Admin&background=random" alt="User avatar">
+
+          <!-- User dropdown -->
+          <div class="relative" #userDropdown>
+            <button
+              (click)="toggleUserDropdown()"
+              class="flex items-center text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200 focus:outline-none"
+            >
+              <span class="mr-2 font-medium" *ngIf="!isSidenavCollapsed">{{ userData?.username }}</span>
+              <img
+                class="h-8 w-8 rounded-full border-2 border-gray-200 dark:border-gray-700"
+                [src]="'https://ui-avatars.com/api/?name=' + (userData?.username) + '&background=random'"
+                [alt]="userData?.username || 'Admin'"
+              >
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
             </button>
+
+            <!-- Dropdown menu -->
+            <div
+              *ngIf="showUserDropdown"
+              class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-10 border border-gray-200 dark:border-gray-700"
+            >
+              <div class="px-4 py-2 border-b border-gray-200 dark:border-gray-700">
+                <p class="text-sm font-medium text-gray-900 dark:text-white">{{ userData?.username || 'Admin' }}</p>
+                <p class="text-xs text-gray-500 dark:text-gray-400 truncate">{{ userData?.email || 'admin@example.com' }}</p>
+              </div>
+              <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                <i class="bi bi-person-fill mr-2"></i> Mon profil
+              </a>
+              <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                <i class="bi bi-gear-fill mr-2"></i> Paramètres
+              </a>
+              <div class="border-t border-gray-200 dark:border-gray-700"></div>
+              <button
+                (click)="logout()"
+                class="block w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700"
+              >
+                <i class="bi bi-box-arrow-right mr-2"></i> Déconnexion
+              </button>
+            </div>
           </div>
         </div>
       </div>

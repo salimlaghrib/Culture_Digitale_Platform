@@ -1,3 +1,2 @@
-<app-header *ngIf="isAuthenticated"></app-header>غ
+<app-header *ngIf="authService.isAuthenticated() && !authService.isAdmin()"></app-header>
 <router-outlet></router-outlet>
-<!--<app-footer *ngIf="authService.isAuthenticated()"></app-footer>-->

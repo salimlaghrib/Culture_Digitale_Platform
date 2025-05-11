@@ -3,6 +3,14 @@
   @apply bg-primary text-white;
 }
 
+.bg-primary-light {
+  @apply bg-blue-600;
+}
+
+.dark .bg-primary-dark {
+  @apply bg-blue-700;
+}
+
 /* Transition for sidebar */
 aside {
   transition: width 0.3s ease-in-out;
@@ -23,4 +31,13 @@ main::-webkit-scrollbar-thumb {
 
 main::-webkit-scrollbar-thumb:hover {
   @apply bg-gray-400 dark:bg-gray-500;
+}
+
+/* Smooth transitions for dark mode */
+html.dark {
+  @apply transition-colors duration-200;
+}
+
+body {
+  @apply transition-colors duration-200;
 }

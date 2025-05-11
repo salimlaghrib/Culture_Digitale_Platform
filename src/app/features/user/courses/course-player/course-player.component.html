@@ -1,0 +1,214 @@
+<div class="container mx-auto px-4 py-8">
+  <!-- Back Button -->
+  <button
+    (click)="goBack()"
+    class="flex items-center text-gray-600 hover:text-gray-900 mb-6"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+    </svg>
+    Retour
+  </button>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="flex justify-center items-center py-12">
+    <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6">
+    <strong class="font-bold">Erreur!</strong>
+    <span class="block sm:inline"> Impossible de charger le cours. Veuillez réessayer plus tard.</span>
+  </div>
+
+  <!-- Course Content -->
+  <div *ngIf="!loading && !error && course">
+    <!-- Course Header -->
+    <div class="mb-6">
+      <h1 class="text-3xl font-bold mb-2">{{ course.title }}</h1>
+      <p *ngIf="course.description" class="text-gray-600 mb-4">{{ course.description }}</p>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="flex border-b border-gray-200 mb-6">
+      <button
+        class="py-2 px-4 mr-2 focus:outline-none"
+        [ngClass]="{'text-primary border-b-2 border-primary font-medium': currentScreen === 'video',
+                   'text-gray-500 hover:text-gray-700': currentScreen !== 'video'}"
+        (click)="showVideo()"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        Vidéo
+      </button>
+      <button
+        class="py-2 px-4 mr-2 focus:outline-none"
+        [ngClass]="{'text-primary border-b-2 border-primary font-medium': currentScreen === 'pdf',
+                   'text-gray-500 hover:text-gray-700': currentScreen !== 'pdf'}"
+        (click)="showPdf()"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        </svg>
+        PDF
+      </button>
+      <button
+        class="py-2 px-4 focus:outline-none"
+        [ngClass]="{'text-primary border-b-2 border-primary font-medium': currentScreen === 'quiz-intro' || currentScreen === 'quiz-questions' || currentScreen === 'quiz-results',
+                   'text-gray-500 hover:text-gray-700': currentScreen !== 'quiz-intro' && currentScreen !== 'quiz-questions' && currentScreen !== 'quiz-results'}"
+        (click)="startQuiz()"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        Quiz
+      </button>
+    </div>
+
+    <!-- Video Content -->
+    <div *ngIf="currentScreen === 'video'" class="mb-6">
+      <div class="aspect-w-16 aspect-h-9 bg-black rounded-lg overflow-hidden">
+        <iframe
+          [src]="course.videoUrl | safeResourceUrl"
+          title="Course Video"
+          class="w-full h-full"
+          allowfullscreen
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        ></iframe>
+      </div>
+    </div>
+
+    <!-- PDF Content -->
+    <div *ngIf="currentScreen === 'pdf'" class="mb-6">
+      <div class="bg-gray-100 p-4 rounded-lg mb-4">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-xl font-bold">Support de cours</h2>
+          <button
+            (click)="downloadPdf()"
+            class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-opacity-90 transition-colors duration-200 flex items-center"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+            </svg>
+            Télécharger
+          </button>
+        </div>
+
+        <!-- PDF Viewer would go here - requires ngx-extended-pdf-viewer -->
+        <div class="bg-white rounded-lg shadow-inner p-4 h-96 flex items-center justify-center">
+          <p class="text-gray-500">
+            Pour afficher le PDF, veuillez installer ngx-extended-pdf-viewer et l'importer dans le composant.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quiz Intro -->
+    <div *ngIf="currentScreen === 'quiz-intro'" class="bg-white rounded-lg shadow-md p-6 mb-6">
+      <h2 class="text-2xl font-bold mb-4">Quiz: {{ course.title }}</h2>
+      <div class="mb-6">
+        <h3 class="text-lg font-medium mb-2">Instructions:</h3>
+        <ul class="list-disc pl-5 space-y-2 text-gray-600">
+          <li>Ce quiz contient {{ course.quiz.length }} questions.</li>
+          <li>Chaque question a une seule réponse correcte.</li>
+          <li>Vous pouvez naviguer entre les questions.</li>
+          <li>Votre score sera affiché à la fin du quiz.</li>
+        </ul>
+      </div>
+      <button
+        (click)="beginQuiz()"
+        class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-opacity-90 transition-colors duration-200"
+      >
+        Commencer le quiz
+      </button>
+    </div>
+
+    <!-- Quiz Questions -->
+    <div *ngIf="currentScreen === 'quiz-questions' && course.quiz.length > 0" class="bg-white rounded-lg shadow-md p-6 mb-6">
+      <div class="mb-4 flex justify-between items-center">
+        <h2 class="text-xl font-bold">Question {{ currentQuestionIndex + 1 }}/{{ course.quiz.length }}</h2>
+        <span class="text-sm text-gray-500">{{ currentQuestionIndex + 1 }} sur {{ course.quiz.length }}</span>
+      </div>
+
+      <div class="mb-6">
+        <h3 class="text-lg font-medium mb-4">{{ course.quiz[currentQuestionIndex].question }}</h3>
+        <div class="space-y-3">
+          <div
+            *ngFor="let option of course.quiz[currentQuestionIndex].options; let i = index"
+            class="flex items-center p-3 rounded-lg border cursor-pointer transition-colors duration-200"
+            [ngClass]="{'border-primary bg-primary bg-opacity-10': isAnswerSelected(course.quiz[currentQuestionIndex].questionId, i),
+                       'border-gray-200 hover:bg-gray-50': !isAnswerSelected(course.quiz[currentQuestionIndex].questionId, i)}"
+            (click)="selectAnswer(course.quiz[currentQuestionIndex].questionId, i)"
+          >
+            <div class="w-6 h-6 rounded-full border-2 flex items-center justify-center mr-3"
+                 [ngClass]="{'border-primary': isAnswerSelected(course.quiz[currentQuestionIndex].questionId, i),
+                            'border-gray-300': !isAnswerSelected(course.quiz[currentQuestionIndex].questionId, i)}">
+              <div *ngIf="isAnswerSelected(course.quiz[currentQuestionIndex].questionId, i)"
+                   class="w-3 h-3 rounded-full bg-primary"></div>
+            </div>
+            <span>{{ option.answer }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex justify-between">
+        <button
+          *ngIf="currentQuestionIndex > 0"
+          (click)="previousQuestion()"
+          class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition-colors duration-200 flex items-center"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+          Précédent
+        </button>
+        <button
+          (click)="nextQuestion()"
+          class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-opacity-90 transition-colors duration-200 flex items-center"
+        >
+          {{ currentQuestionIndex < course.quiz.length - 1 ? 'Suivant' : 'Terminer' }}
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Quiz Results -->
+    <div *ngIf="currentScreen === 'quiz-results'" class="bg-white rounded-lg shadow-md p-6 mb-6 text-center">
+      <div class="mb-6">
+        <div class="w-32 h-32 mx-auto rounded-full flex items-center justify-center border-8"
+             [ngClass]="{'border-green-500': quizScore >= 70, 'border-yellow-500': quizScore >= 40 && quizScore < 70, 'border-red-500': quizScore < 40}">
+          <span class="text-3xl font-bold"
+                [ngClass]="{'text-green-500': quizScore >= 70, 'text-yellow-500': quizScore >= 40 && quizScore < 70, 'text-red-500': quizScore < 40}">
+            {{ quizScore }}%
+          </span>
+        </div>
+      </div>
+
+      <h2 class="text-2xl font-bold mb-2">Quiz terminé!</h2>
+      <p class="text-gray-600 mb-6">
+        {{ quizScore >= 70 ? 'Félicitations! Vous avez réussi le quiz.' :
+           quizScore >= 40 ? 'Pas mal! Vous pouvez faire mieux.' :
+           'Vous devriez revoir le cours et réessayer.' }}
+      </p>
+
+      <div class="flex justify-center space-x-4">
+        <button
+          (click)="restartQuiz()"
+          class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-opacity-90 transition-colors duration-200"
+        >
+          Recommencer le quiz
+        </button>
+        <button
+          (click)="showVideo()"
+          class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition-colors duration-200"
+        >
+          Revoir le cours
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

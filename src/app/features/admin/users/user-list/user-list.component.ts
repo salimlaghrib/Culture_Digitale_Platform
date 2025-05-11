@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { AdminService } from '../../services/admin.service';
 import { UserFormComponent } from '../user-form/user-form.component';
 
 @Component({
@@ -18,58 +19,35 @@ export class UserListComponent implements OnInit {
 
   // For filtering
   searchTerm: string = '';
-  roleFilter: string = 'all';
+  selectedRole: string = '';
+  selectedStatus: string = '';
 
   // For form handling
   showForm: boolean = false;
   currentUser: any = null;
   isEditMode: boolean = false;
 
-  constructor() {}
+  filteredUsers: any[] = [];
+
+  constructor(private adminService: AdminService) {}
 
   ngOnInit(): void {
-    // Simulate loading data from an API
-    setTimeout(() => {
-      this.users = [
-        {
-          id: 1,
-          name: 'Jean Dupont',
-          email: 'jean.dupont@example.com',
-          role: 'admin',
-          status: 'active',
-          registeredDate: '2023-01-15',
-          lastLogin: '2023-05-01'
-        },
-        {
-          id: 2,
-          name: 'Marie Martin',
-          email: 'marie.martin@example.com',
-          role: 'instructor',
-          status: 'active',
-          registeredDate: '2023-02-20',
-          lastLogin: '2023-04-28'
-        },
-        {
-          id: 3,
-          name: 'Pierre Bernard',
-          email: 'pierre.bernard@example.com',
-          role: 'student',
-          status: 'inactive',
-          registeredDate: '2023-03-10',
-          lastLogin: '2023-03-15'
-        },
-        {
-          id: 4,
-          name: 'Sophie Petit',
-          email: 'sophie.petit@example.com',
-          role: 'student',
-          status: 'active',
-          registeredDate: '2023-04-05',
-          lastLogin: '2023-04-30'
-        }
-      ];
-      this.loading = false;
-    }, 1000);
+    this.loadUsers();
+  }
+
+  loadUsers(): void {
+    this.loading = true;
+    this.adminService.getUsers().subscribe({
+      next: (users) => {
+        this.users = users;
+        this.loading = false;
+        this.filterUsers();
+      },
+      error: (error) => {
+        this.error = 'Erreur lors du chargement des utilisateurs';
+        this.loading = false;
+      }
+    });
   }
 
   addUser(): void {
@@ -77,9 +55,9 @@ export class UserListComponent implements OnInit {
       id: null,
       name: '',
       email: '',
-      role: 'student',
+      role: 'Apprenant',
       status: 'active',
-      registeredDate: new Date().toISOString().split('T')[0],
+      createdAt: new Date().toISOString().split('T')[0],
       lastLogin: new Date().toISOString().split('T')[0]
     };
     this.isEditMode = false;
@@ -87,7 +65,6 @@ export class UserListComponent implements OnInit {
   }
 
   editUser(user: any): void {
-    // Clone the user to avoid modifying the original directly
     this.currentUser = { ...user };
     this.isEditMode = true;
     this.showForm = true;
@@ -95,27 +72,42 @@ export class UserListComponent implements OnInit {
 
   deleteUser(id: number): void {
     if (confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')) {
-      // In a real application, this would call an API
-      this.users = this.users.filter(user => user.id !== id);
+      this.adminService.deleteUser(id).subscribe({
+        next: () => {
+          this.users = this.users.filter(user => user.id !== id);
+        },
+        error: (error) => {
+          this.error = 'Erreur lors de la suppression de l\'utilisateur';
+        }
+      });
     }
   }
 
   saveUser(user: any): void {
     if (this.isEditMode) {
-      // Update existing user
-      // In a real app, this would call an API
-      const index = this.users.findIndex(u => u.id === user.id);
-      if (index !== -1) {
-        this.users[index] = user;
-      }
+      this.adminService.updateUser(user.id, user).subscribe({
+        next: (updatedUser) => {
+          const index = this.users.findIndex(u => u.id === user.id);
+          if (index !== -1) {
+            this.users[index] = updatedUser;
+          }
+          this.closeForm();
+        },
+        error: (error) => {
+          this.error = 'Erreur lors de la mise à jour de l\'utilisateur';
+        }
+      });
     } else {
-      // Add new user
-      // In a real app, this would call an API
-      // Generate a simple ID for demo purposes
-      user.id = Math.max(0, ...this.users.map(u => u.id)) + 1;
-      this.users.push(user);
+      this.adminService.createUser(user).subscribe({
+        next: (newUser) => {
+          this.users.push(newUser);
+          this.closeForm();
+        },
+        error: (error) => {
+          this.error = 'Erreur lors de la création de l\'utilisateur';
+        }
+      });
     }
-    this.closeForm();
   }
 
   closeForm(): void {
@@ -123,13 +115,16 @@ export class UserListComponent implements OnInit {
     this.currentUser = null;
   }
 
-  get filteredUsers(): any[] {
-    return this.users.filter(user => {
-      const matchesSearch = user.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-                           user.email.toLowerCase().includes(this.searchTerm.toLowerCase());
-      const matchesRole = this.roleFilter === 'all' || user.role === this.roleFilter;
+  filterUsers(): void {
+    this.filteredUsers = this.users.filter(user => {
+      const matchesSearch = !this.searchTerm || 
+        user.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        user.email.toLowerCase().includes(this.searchTerm.toLowerCase());
+      
+      const matchesRole = !this.selectedRole || user.role === this.selectedRole;
+      const matchesStatus = !this.selectedStatus || user.status === this.selectedStatus;
 
-      return matchesSearch && matchesRole;
+      return matchesSearch && matchesRole && matchesStatus;
     });
   }
 }

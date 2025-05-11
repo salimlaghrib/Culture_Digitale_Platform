@@ -1,101 +1,143 @@
-<div class="container mx-auto">
-  <h1 class="text-2xl font-bold mb-6 text-gray-800 dark:text-white">Tableau de bord</h1>
+<div class="space-y-6">
+  <!-- Header -->
+  <div class="flex justify-between items-center">
+    <h1 class="text-2xl font-semibold text-gray-800 dark:text-white">Tableau de Bord</h1>
+    <div class="text-sm text-gray-500 dark:text-gray-400">
+      Last updated: {{ lastUpdated | date:'medium' }}
+    </div>
+  </div>
 
-  <!-- Stats Cards -->
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-    <div class="admin-card flex items-center">
-      <div class="rounded-full p-3 bg-blue-100 dark:bg-blue-900 mr-4">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500 dark:text-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-        </svg>
-      </div>
-      <div>
-        <p class="text-sm text-gray-500 dark:text-gray-400">Utilisateurs totaux</p>
-        <p class="text-xl font-semibold text-gray-800 dark:text-white">{{ stats.totalUsers }}</p>
+  <!-- Stats Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <!-- Total Users -->
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 transition-all duration-300 hover:shadow-md">
+      <div class="flex items-center">
+        <div class="p-3 rounded-full bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400">
+          <i class="bi bi-people-fill text-2xl"></i>
+        </div>
+        <div class="ml-4">
+          <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Utilisateurs</p>
+          <p class="text-2xl font-semibold text-gray-800 dark:text-white">{{ stats.totalUsers | number }}</p>
+          <p class="text-xs mt-1" [ngClass]="{
+            'text-green-500': stats.userGrowth > 0,
+            'text-red-500': stats.userGrowth <= 0
+          }">
+            <i class="bi" [ngClass]="stats.userGrowth > 0 ? 'bi-arrow-up' : 'bi-arrow-down'"></i>
+            {{ stats.userGrowth }}% vs last month
+          </p>
+        </div>
       </div>
     </div>
 
-    <div class="admin-card flex items-center">
-      <div class="rounded-full p-3 bg-green-100 dark:bg-green-900 mr-4">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500 dark:text-green-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-      </div>
-      <div>
-        <p class="text-sm text-gray-500 dark:text-gray-400">Utilisateurs actifs</p>
-        <p class="text-xl font-semibold text-gray-800 dark:text-white">{{ stats.activeUsers }}</p>
-      </div>
-    </div>
-
-    <div class="admin-card flex items-center">
-      <div class="rounded-full p-3 bg-purple-100 dark:bg-purple-900 mr-4">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-500 dark:text-purple-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-        </svg>
-      </div>
-      <div>
-        <p class="text-sm text-gray-500 dark:text-gray-400">Formations</p>
-        <p class="text-xl font-semibold text-gray-800 dark:text-white">{{ stats.totalTrainings }}</p>
+    <!-- Total Trainings -->
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 transition-all duration-300 hover:shadow-md">
+      <div class="flex items-center">
+        <div class="p-3 rounded-full bg-green-100 dark:bg-green-900/50 text-green-600 dark:text-green-400">
+          <i class="bi bi-book-fill text-2xl"></i>
+        </div>
+        <div class="ml-4">
+          <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Formations</p>
+          <p class="text-2xl font-semibold text-gray-800 dark:text-white">{{ stats.totalTrainings | number }}</p>
+        </div>
       </div>
     </div>
 
-    <div class="admin-card flex items-center">
-      <div class="rounded-full p-3 bg-yellow-100 dark:bg-yellow-900 mr-4">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-500 dark:text-yellow-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-        </svg>
+    <!-- Total Courses -->
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 transition-all duration-300 hover:shadow-md">
+      <div class="flex items-center">
+        <div class="p-3 rounded-full bg-yellow-100 dark:bg-yellow-900/50 text-yellow-600 dark:text-yellow-400">
+          <i class="bi bi-mortarboard-fill text-2xl"></i>
+        </div>
+        <div class="ml-4">
+          <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Cours</p>
+          <p class="text-2xl font-semibold text-gray-800 dark:text-white">{{ stats.totalCourses | number }}</p>
+        </div>
       </div>
-      <div>
-        <p class="text-sm text-gray-500 dark:text-gray-400">Cours</p>
-        <p class="text-xl font-semibold text-gray-800 dark:text-white">{{ stats.totalCourses }}</p>
+    </div>
+
+    <!-- Active Enrollments -->
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 transition-all duration-300 hover:shadow-md">
+      <div class="flex items-center">
+        <div class="p-3 rounded-full bg-purple-100 dark:bg-purple-900/50 text-purple-600 dark:text-purple-400">
+          <i class="bi bi-person-check-fill text-2xl"></i>
+        </div>
+        <div class="ml-4">
+          <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Inscriptions Actives</p>
+          <p class="text-2xl font-semibold text-gray-800 dark:text-white">{{ stats.activeEnrollments | number }}</p>
+          <p class="text-xs mt-1 text-blue-500 dark:text-blue-400">
+            <i class="bi bi-info-circle"></i> {{ stats.completionRate }}% completion
+          </p>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Recent Items -->
+  <!-- Charts Row -->
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-    <!-- Recent Trainings -->
-    <div class="admin-card">
-      <div class="flex justify-between items-center mb-4">
-        <h2 class="text-lg font-semibold text-gray-800 dark:text-white">Formations récentes</h2>
-        <a routerLink="/admin/trainings" class="text-primary hover:text-primary-dark text-sm">Voir tout</a>
-      </div>
-
-      <div class="space-y-4">
-        <div *ngFor="let training of recentTrainings" class="border-b border-gray-200 dark:border-gray-700 pb-3 last:border-0 last:pb-0">
-          <div class="flex justify-between">
-            <div>
-              <h3 class="font-medium text-gray-800 dark:text-white">{{ training.title }}</h3>
-              <p class="text-sm text-gray-500 dark:text-gray-400">{{ training.category }}</p>
-            </div>
-            <span class="text-xs text-gray-500 dark:text-gray-400">{{ training.createdAt | date:'dd/MM/yyyy' }}</span>
-          </div>
-        </div>
-
-        <div *ngIf="recentTrainings.length === 0" class="text-center py-4 text-gray-500 dark:text-gray-400">
-          Aucune formation récente
+    <!-- Users Chart -->
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+      <h3 class="text-lg font-medium text-gray-800 dark:text-white mb-4">User Growth</h3>
+      <div class="h-64">
+        <!-- Placeholder for chart -->
+        <div class="flex items-center justify-center h-full bg-gray-100 dark:bg-gray-700 rounded">
+          <p class="text-gray-500 dark:text-gray-400">Chart will appear here</p>
         </div>
       </div>
     </div>
-
-    <!-- Recent Users -->
-    <div class="admin-card">
-      <div class="flex justify-between items-center mb-4">
-        <h2 class="text-lg font-semibold text-gray-800 dark:text-white">Utilisateurs récents</h2>
-        <a routerLink="/admin/users" class="text-primary hover:text-primary-dark text-sm">Voir tout</a>
-      </div>
-
-      <div class="space-y-4">
-        <div *ngFor="let user of recentUsers" class="flex items-center border-b border-gray-200 dark:border-gray-700 pb-3 last:border-0 last:pb-0">
-          <img class="h-10 w-10 rounded-full mr-3" src="https://ui-avatars.com/api/?name={{user.name}}&background=random" alt="User avatar">
-          <div>
-            <h3 class="font-medium text-gray-800 dark:text-white">{{ user.name }}</h3>
-            <p class="text-sm text-gray-500 dark:text-gray-400">{{ user.email }} • {{ user.role }}</p>
-          </div>
+    
+    <!-- Enrollments Chart -->
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+      <h3 class="text-lg font-medium text-gray-800 dark:text-white mb-4">Enrollments by Training</h3>
+      <div class="h-64">
+        <!-- Placeholder for chart -->
+        <div class="flex items-center justify-center h-full bg-gray-100 dark:bg-gray-700 rounded">
+          <p class="text-gray-500 dark:text-gray-400">Chart will appear here</p>
         </div>
+      </div>
+    </div>
+  </div>
 
-        <div *ngIf="recentUsers.length === 0" class="text-center py-4 text-gray-500 dark:text-gray-400">
-          Aucun utilisateur récent
+  <!-- Recent Activity -->
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+    <div class="px-6 py-4 border-b dark:border-gray-700 flex justify-between items-center">
+      <h2 class="text-lg font-medium text-gray-800 dark:text-white">Activité Récente</h2>
+      <button class="text-sm text-blue-500 dark:text-blue-400 hover:underline">View All</button>
+    </div>
+    <div class="divide-y divide-gray-200 dark:divide-gray-700">
+      <div *ngFor="let activity of recentActivity" class="px-6 py-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200">
+        <div class="flex items-center">
+          <div class="flex-shrink-0">
+            <span class="h-8 w-8 rounded-full flex items-center justify-center"
+                  [ngClass]="{
+                    'bg-blue-100 text-blue-600 dark:bg-blue-900/50 dark:text-blue-400': activity.type === 'user',
+                    'bg-green-100 text-green-600 dark:bg-green-900/50 dark:text-green-400': activity.type === 'training',
+                    'bg-yellow-100 text-yellow-600 dark:bg-yellow-900/50 dark:text-yellow-400': activity.type === 'course'
+                  }">
+              <i class="bi" [ngClass]="{
+                'bi-person-fill': activity.type === 'user',
+                'bi-book-fill': activity.type === 'training',
+                'bi-mortarboard-fill': activity.type === 'course'
+              }"></i>
+            </span>
+          </div>
+          <div class="ml-4 flex-1 min-w-0">
+            <p class="text-sm text-gray-800 dark:text-gray-200">{{ activity.description }}</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+              <time>{{ activity.date | date:'medium' }}</time>
+              <span class="mx-1">•</span>
+              <span>{{ activity.user }}</span>
+            </p>
+          </div>
+          <div>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium" 
+                  [ngClass]="{
+                    'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200': activity.status === 'completed',
+                    'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200': activity.status === 'new',
+                    'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200': activity.status === 'pending'
+                  }">
+              {{ activity.status | titlecase }}
+            </span>
+          </div>
         </div>
       </div>
     </div>

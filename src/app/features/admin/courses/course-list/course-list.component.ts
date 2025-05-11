@@ -1,112 +1,96 @@
-import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { AdminService } from '../../services/admin.service';
 import { CourseFormComponent } from '../course-form/course-form.component';
 
 @Component({
   selector: 'app-course-list',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule, CourseFormComponent],
-  templateUrl: './course-list.component.html'
+  imports: [CommonModule, FormsModule, CourseFormComponent],
+  templateUrl: './course-list.component.html',
+  styleUrls: ['./course-list.component.css']
 })
 export class CourseListComponent implements OnInit {
-  courses: any[] = [];
-  loading: boolean = true;
-  error: string | null = null;
-
-  // For filtering
-  searchTerm: string = '';
-  categoryFilter: string = 'all';
-
-  // For form handling
-  showForm: boolean = false;
-  currentCourse: any = null;
-  isEditMode: boolean = false;
-
-  constructor() {}
-
-  ngOnInit(): void {
-    // Simulate loading data from an API
-    setTimeout(() => {
-      this.courses = [
-        {
-          id: 1,
-          title: 'Introduction à JavaScript',
-          description: 'Apprenez les bases de JavaScript, le langage de programmation du web',
-          category: 'development',
-          instructor: 'Jean Dupont',
-          duration: '3h 45min',
-          level: 'débutant',
-          rating: 4.7,
-          enrolledStudents: 128,
-          pdfFile: null,
-          pdfFileName: 'javascript_introduction.pdf'
-        },
-        {
-          id: 2,
-          title: 'Conception UX avancée',
-          description: 'Techniques avancées pour créer des expériences utilisateur exceptionnelles',
-          category: 'design',
-          instructor: 'Marie Martin',
-          duration: '5h 20min',
-          level: 'avancé',
-          rating: 4.9,
-          enrolledStudents: 85,
-          pdfFile: null,
-          pdfFileName: ''
-        },
-        {
-          id: 3,
-          title: 'Marketing Digital',
-          description: 'Stratégies efficaces pour promouvoir votre entreprise en ligne',
-          category: 'marketing',
-          instructor: 'Sophie Petit',
-          duration: '4h 10min',
-          level: 'intermédiaire',
-          rating: 4.5,
-          enrolledStudents: 112,
-          pdfFile: null,
-          pdfFileName: 'marketing_digital_guide.pdf'
-        },
-        {
-          id: 4,
-          title: 'Bases de données SQL',
-          description: 'Maîtrisez les requêtes SQL et la conception de bases de données',
-          category: 'development',
-          instructor: 'Pierre Bernard',
-          duration: '6h 30min',
-          level: 'intermédiaire',
-          rating: 4.6,
-          enrolledStudents: 94,
-          pdfFile: null,
-          pdfFileName: ''
-        }
-      ];
-      this.loading = false;
-    }, 1000);
+  /**
+   * Retourne le titre de la formation à partir de son id (pour affichage dans la liste des cours)
+   */
+  getTrainingName(trainingId: any): string {
+    if (!trainingId) return '';
+    const found = this.trainings.find(t => t.id == trainingId || t.id === trainingId?.toString());
+    return found ? found.title : '';
   }
 
-  addCourse(): void {
-    this.currentCourse = {
-      id: null,
-      title: '',
-      description: '',
-      category: 'development',
-      instructor: '',
-      duration: '',
-      level: 'débutant',
-      rating: 0,
-      enrolledStudents: 0,
-      pdfFile: null,
-      pdfFileName: ''
-    };
-    this.isEditMode = false;
-    this.showForm = true;
+  courses: any[] = [];
+  trainings: any[] = [];
+  filteredCourses: any[] = [];
+  searchTerm: string = '';
+  selectedTraining: string = '';
+  selectedStatus: string = '';
+  showForm = false;
+  currentCourse: any = null;
+  isEditMode = false;
+  categoryFilter: string = 'all';
+  loading = false;
+  error: string | null = null;
+  isFormVisible = false;
+  private pendingQuizzes: any[] = [];
+
+  constructor(private adminService: AdminService) {}
+
+  ngOnInit(): void {
+    this.loadCourses();
+    this.loadTrainings();
+  }
+
+  loadCourses(): void {
+    this.adminService.getCourses().subscribe(courses => {
+      this.courses = courses;
+      this.updateFilteredCourses();
+    });
+  }
+
+  loadTrainings(): void {
+    this.adminService.getFormations().subscribe((formations: any[]) => {
+      this.trainings = formations;
+    });
+  }
+
+  updateFilteredCourses(): void {
+    this.filteredCourses = this.courses.filter(course => {
+      const matchesSearch = !this.searchTerm || 
+        course.title.toLowerCase().includes(this.searchTerm.toLowerCase());
+      
+      const matchesTraining = !this.selectedTraining || course.trainingId === this.selectedTraining;
+      const matchesStatus = !this.selectedStatus || course.status === this.selectedStatus;
+
+      return matchesSearch && matchesTraining && matchesStatus;
+    });
+  }
+
+  filterCourses(): void {
+    this.updateFilteredCourses();
+  }
+
+  getTrainingTitle(trainingId: string): string {
+    const training = this.trainings.find(t => t.id === trainingId);
+    return training ? training.title : '';
+  }
+
+  downloadPdf(course: any): void {
+    if (course.pdfFileName) {
+      this.adminService.downloadCoursePdf(course.id).subscribe((blob: Blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = course.pdfFileName;
+        link.click();
+        window.URL.revokeObjectURL(url);
+      });
+    }
   }
 
   editCourse(course: any): void {
-    // Clone the course to avoid modifying the original directly
     this.currentCourse = { ...course };
     this.isEditMode = true;
     this.showForm = true;
@@ -114,62 +98,104 @@ export class CourseListComponent implements OnInit {
 
   deleteCourse(id: number): void {
     if (confirm('Êtes-vous sûr de vouloir supprimer ce cours ?')) {
-      // In a real application, this would call an API
-      this.courses = this.courses.filter(course => course.id !== id);
+      this.adminService.deleteCourse(id).subscribe(() => {
+        this.loadCourses();
+      });
     }
   }
 
-  saveCourse(course: any): void {
-    if (this.isEditMode) {
-      // Update existing course
-      // In a real app, this would call an API
-      const index = this.courses.findIndex(c => c.id === course.id);
-      if (index !== -1) {
-        this.courses[index] = course;
-      }
+  addCourse(): void {
+    if (this.trainings.length === 0) {
+      this.adminService.getFormations().subscribe((formations: any[]) => {
+        this.trainings = formations;
+        this.initializeNewCourse();
+      });
     } else {
-      // Add new course
-      // In a real app, this would call an API
-      // Generate a simple ID for demo purposes
-      course.id = Math.max(0, ...this.courses.map(c => c.id)) + 1;
-      this.courses.push(course);
+      this.initializeNewCourse();
     }
-    this.closeForm();
+  }
+
+  private initializeNewCourse(): void {
+    this.currentCourse = {
+      id: null,
+      title: '',
+      description: '',
+      trainingId: '',
+      duration: 0,
+      status: 'active'
+    };
+    this.isEditMode = false;
+    this.showForm = true;
   }
 
   closeForm(): void {
     this.showForm = false;
-    this.currentCourse = null;
   }
 
-  downloadPdf(course: any): void {
-    // In a real application, this would download the actual file from a server
-    // For this demo, we'll just show an alert
-    if (course.pdfFile) {
-      // If we have the actual file object (from a recent upload)
-      const url = URL.createObjectURL(course.pdfFile);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = course.pdfFileName;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    } else if (course.pdfFileName) {
-      // In a real app, this would fetch the file from a server
-      alert(`Téléchargement du fichier: ${course.pdfFileName}`);
-      // The actual implementation would be something like:
-      // window.location.href = `/api/courses/${course.id}/download-pdf`;
+  handleQuizzes(quizzes: any[]): void {
+    // Ensure correctAnswerIndex is a valid number and within answers array
+    this.pendingQuizzes = (quizzes || []).map(quiz => {
+      let correctAnswerIndex = Number(quiz.correctAnswerIndex);
+      if (
+        isNaN(correctAnswerIndex) ||
+        correctAnswerIndex < 0 ||
+        correctAnswerIndex >= (quiz.answers?.length || 0)
+      ) {
+        correctAnswerIndex = 0;
+      }
+      return {
+        ...quiz,
+        correctAnswerIndex,
+        answers: Array.isArray(quiz.answers) ? quiz.answers : []
+      };
+    });
+  }
+
+  saveCourse(course: any): void {
+    if (this.isEditMode) {
+      this.adminService.updateCourse(course.id, course).subscribe((updatedCourse) => {
+        // Send quizzes if present
+        if (this.pendingQuizzes && Array.isArray(this.pendingQuizzes)) {
+          this.pendingQuizzes.forEach((quiz: any) => {
+            if (quiz.id) {
+              this.adminService.updateQuiz(quiz.id, quiz).subscribe();
+            } else {
+              this.adminService.createQuiz(course.id, quiz).subscribe();
+            }
+          });
+        }
+        this.loadCourses();
+        this.closeForm();
+        this.pendingQuizzes = [];
+      });
+    } else {
+      this.adminService.createCourse(course).subscribe((createdCourse) => {
+        // Send quizzes if present
+        if (this.pendingQuizzes && Array.isArray(this.pendingQuizzes)) {
+          this.pendingQuizzes.forEach((quiz: any) => {
+            this.adminService.createQuiz(createdCourse.id, quiz).subscribe();
+          });
+        }
+        this.loadCourses();
+        this.closeForm();
+        this.pendingQuizzes = [];
+      });
     }
   }
 
-  get filteredCourses(): any[] {
-    return this.courses.filter(course => {
-      const matchesSearch = course.title.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-                           course.description.toLowerCase().includes(this.searchTerm.toLowerCase());
-      const matchesCategory = this.categoryFilter === 'all' || course.category === this.categoryFilter;
-
-      return matchesSearch && matchesCategory;
+  onSearchChange(): void {
+    // Call backend advanced search when searchTerm changes
+    this.adminService.advancedSearchCourses({
+      keyword: this.searchTerm,
+      formationId: this.selectedTraining ? Number(this.selectedTraining) : undefined,
+      status: this.selectedStatus || undefined,
+      page: 0,
+      size: 20
+    }).subscribe(result => {
+      this.filteredCourses = result.content || [];
+    }, err => {
+      this.filteredCourses = [];
+      this.error = err.message || 'Erreur lors de la recherche avancée';
     });
   }
 }
